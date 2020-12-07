@@ -1,4 +1,6 @@
 package com.codegym.casestudy4.config;
 
-public class AppSecInit {
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
+public class AppSecInit extends AbstractSecurityWebApplicationInitializer {
 }
