@@ -12,15 +12,19 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class AppAdmin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private Long id;
 
     @NotNull
-    private String name;
+    private String username;
 
-    public Category(@NotNull String name) {
-        this.name = name;
+    @NotNull
+    private String password;
+
+    public AppAdmin(@NotNull String username, @NotNull String password) {
+        this.username = username;
+        this.password = password;
     }
 }
