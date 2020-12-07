@@ -41,22 +41,22 @@ public class AppUser {
     @Column(columnDefinition = "bit default true")
     private boolean status;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id")
-    private Role role;
+    private AppRole appRole;
 
 
-    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, Role role) {
+    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.role = role;
+        this.appRole = appRole;
     }
 
-    public AppUser(Long appUserId, @Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, Role role) {
+    public AppUser(Long appUserId, @Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
@@ -64,10 +64,10 @@ public class AppUser {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-        this.role = role;
+        this.appRole = appRole;
     }
 
-    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, boolean status, Role role) {
+    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, boolean status, AppRole appRole) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -75,6 +75,6 @@ public class AppUser {
         this.email = email;
         this.address = address;
         this.status = status;
-        this.role = role;
+        this.appRole = appRole;
     }
 }
