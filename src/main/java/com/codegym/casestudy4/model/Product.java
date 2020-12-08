@@ -17,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
     @NotNull
