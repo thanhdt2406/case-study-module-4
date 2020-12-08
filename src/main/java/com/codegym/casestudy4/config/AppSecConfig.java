@@ -1,6 +1,6 @@
 package com.codegym.casestudy4.config;
 
-import com.codegym.casestudy4.service.IAppUserService;
+import com.codegym.casestudy4.service.appuser.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

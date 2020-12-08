@@ -1,4 +1,4 @@
-package com.codegym.casestudy4.service;
+package com.codegym.casestudy4.service.appuser;
 
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.repo.IAppUserRepository;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
@@ -34,5 +35,25 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
                 user.getPassword(),
                 authorities
         );
+    }
+
+    @Override
+    public Iterable<AppUser> findAll() {
+        return null;
+    }
+
+    @Override
+    public Optional<AppUser> findById(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void save(AppUser appUser) {
+
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 }
