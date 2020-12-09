@@ -21,8 +21,9 @@ public class ShopServiceImpl implements IShopService{
     }
 
     @Override
-    public void save(Shop shop) {
+    public Shop save(Shop shop) {
         iShopRepository.save(shop);
+        return shop;
     }
 
     @Override

@@ -27,7 +27,9 @@
 </head><!--/head-->
 
 <body>
-<header id="header" th:fragment="header"><!--header-->
+
+<!--User-->
+<header id="header" th:fragment="user-header"><!--header-->
     <div class="header_top"><!--header_top-->
         <div class="container">
             <div class="row">
@@ -54,11 +56,6 @@
         </div>
     </div><!--/header_top-->
 
-<<<<<<< HEAD
-<footer th:fragment="footer">
-    &copy; 2018 CodeGym
-</footer>
-=======
     <div class="header-middle"><!--header-middle-->
         <div class="container">
             <div class="row">
@@ -96,8 +93,8 @@
                             <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
                             <!--								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>-->
                             <!--								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="user/cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            <li><a href="user/login.html"><i class="fa fa-lock"></i> Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -122,21 +119,21 @@
                             <li><a href="index.html" class="active">Home</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="shop.html">Products</a></li>
-                                    <li><a href="product-details.html">Product Details</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="user/shop.html">Products</a></li>
+                                    <li><a href="user/product-details.html">Product Details</a></li>
+                                    <li><a href="user/checkout.html">Checkout</a></li>
+                                    <li><a href="user/cart.html">Cart</a></li>
+                                    <li><a href="user/login.html">Login</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">Blog List</a></li>
-                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                    <li><a href="user/blog.html">Blog List</a></li>
+                                    <li><a href="user/blog-single.html">Blog Single</a></li>
                                 </ul>
                             </li>
-                            <li><a href="404.html">404</a></li>
-                            <li><a href="contact-us.html">Contact</a></li>
+                            <li><a href="user/404.html">404</a></li>
+                            <li><a href="user/contact-us.html">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -153,7 +150,7 @@
 <section>
     <div class="container">
         <div class="row">
-            <div th:fragment="left-sidebar" class="col-sm-3">
+            <div th:fragment="user-left-sidebar" class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian"><!--category-productsr-->
@@ -292,6 +289,126 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</section>
+
+<!--Shop-->
+<header th:fragment="shop-user-header" id="header"><!--header-->
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="index.html"><img src="images/home/logo.png" alt=""/></a>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                USA
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canada</a></li>
+                                <li><a href="#">UK</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                DOLLAR
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canadian Dollar</a></li>
+                                <li><a href="#">Pound</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-user"></i>ShopName</a></li>
+                            <li><a href="login.html"><i class="fa fa-lock"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+</header><!--/header-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div th:fragment="shop-left-sidebar" class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Product Management</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">All PRODUCTS</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">ADD NEW PRODUCT</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">PRODUCT VIOLATIONS</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">Lorem ipsum</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">Lorem ipsum</a></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="brands_products">
+                        <h2>SHOP MANAGEMENT</h2>
+                        <div class="brands-name">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Shop Review</a></li>
+                                <li><a href="#">Shop Profile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="brands_products">
+                        <h2>Shipping</h2>
+                        <div class="brands-name">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Lorem ipsum</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="brands_products">
+                        <h2>FINANCIAL</h2>
+                        <div class="brands-name">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Lorem ipsum</a></li>
+                                <li><a href="#">Lorem ipsum</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
         </div>
     </div>
 </section>
@@ -442,16 +559,6 @@
             </div>
         </div>
     </div>
-
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="row">
-                <p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-                <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
-            </div>
-        </div>
-    </div>
-
 </footer><!--/Footer-->
 
 </body>
