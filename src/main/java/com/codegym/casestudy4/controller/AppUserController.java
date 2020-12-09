@@ -17,11 +17,11 @@ public class AppUserController {
     }
     @GetMapping("/shop")
     public String shop(){
-        return "shop";
+        return "shop/shop-index";
     }
     @GetMapping("/admin")
     public String admin(){
-        return "admin";
+        return "admin/admin";
     }
 
 }
