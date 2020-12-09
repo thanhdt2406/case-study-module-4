@@ -35,6 +35,7 @@ public class Product {
     @Column(columnDefinition = "longtext")
     private String description;
 
+    @Column(columnDefinition = "datetime default NOW()")
     private Date createDate;
 
     @Column(columnDefinition = "bigint default 0")

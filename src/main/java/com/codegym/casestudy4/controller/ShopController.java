@@ -29,7 +29,12 @@ public class ShopController {
         return iAppUserService.findAll();
     }
 
-    @GetMapping()
+    @GetMapping
+    public ModelAndView index(){
+        return new ModelAndView("shop/shop-index");
+    }
+
+    @GetMapping("/")
     public ResponseEntity<Iterable<Shop>> getAll() {
         return new ResponseEntity<>(iShopService.findAll(),HttpStatus.OK);
     }
