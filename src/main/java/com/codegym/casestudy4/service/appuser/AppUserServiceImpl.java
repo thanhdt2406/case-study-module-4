@@ -3,7 +3,9 @@ package com.codegym.casestudy4.service.appuser;
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.repo.IAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,10 +21,16 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
     @Autowired
     private IAppUserRepository iAppUserRepository;
 
-
     @Override
     public AppUser getUserByUsername(String username) {
         return iAppUserRepository.findByUsername(username);
+    }
+
+    @Override
+    public AppUser getUserLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return getUserByUsername(username);
     }
 
     @Override

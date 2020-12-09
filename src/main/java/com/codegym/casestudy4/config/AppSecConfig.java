@@ -35,10 +35,12 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/user/**").hasAnyRole("ADMIN", "SHOP", "USER")
                 .and()
-                .formLogin().loginPage("/login.html").loginProcessingUrl("/login").successHandler(customSuccessHandler)
+                .formLogin().loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and().exceptionHandling().accessDeniedPage("/deny");
         http.csrf().disable();
     }
+
+
 }
