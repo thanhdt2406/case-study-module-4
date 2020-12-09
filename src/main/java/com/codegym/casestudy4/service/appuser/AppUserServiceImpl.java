@@ -17,12 +17,12 @@ import java.util.Optional;
 @Service
 public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
     @Autowired
-    private IAppUserRepository appUserRepository;
+    private IAppUserRepository iAppUserRepository;
 
 
     @Override
     public AppUser getUserByUsername(String username) {
-        return appUserRepository.findByUsername(username);
+        return iAppUserRepository.findByUsername(username);
     }
 
     @Override
@@ -39,21 +39,22 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
 
     @Override
     public Iterable<AppUser> findAll() {
-        return null;
+        return iAppUserRepository.findAll();
     }
 
     @Override
     public Optional<AppUser> findById(Long id) {
-        return Optional.empty();
+        return iAppUserRepository.findById(id);
     }
 
     @Override
     public AppUser save(AppUser appUser) {
-        return null;
+        iAppUserRepository.save(appUser);
+        return appUser;
     }
 
     @Override
     public void delete(Long id) {
-
+        iAppUserRepository.deleteById(id);
     }
 }

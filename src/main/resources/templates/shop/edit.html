@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/layout :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Modify Custommer</h3>
+<p>
+    <a th:href="@{/shops/list}">
+        BACK TO SHOP LIST
+    </a>
+</p>
+<div id="form">
+    <form th:object="${shop}"
+          method="post" novalidate="novalidate">
+        <input type="hidden" name="shopId" th:value="${shop.getShopId()}">
+        <div>
+            <label>Name</label>
+            <input type="text" name="name" th:value="${shop.getName()}">
+        </div>
+        <div>
+            <label>Address</label>
+            <input type="text" name="address" th:value="${shop.getAddress()}">
+        </div>
+        <div>
+            <label>Description</label>
+            <input type="text" name="description" th:value="${shop.getDescription()}">
+        </div>
+        <div>
+            <label>UserName</label>
+            <select name="appUser">
+                <option th:each="u:${users}"
+                        th:value="${u.getAppUserId()}"
+                        th:text="${u.getUsername()}"
+                        th:selected="(${u.getAppUserId()} == *{appUser.getAppUserId()})"
+                ></option>
+            </select>
+        </div>
+        <input type="submit" value="EDIT">
+    </form>
+
+
+</div>
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>>
