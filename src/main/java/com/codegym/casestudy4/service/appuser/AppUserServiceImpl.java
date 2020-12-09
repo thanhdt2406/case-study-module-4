@@ -48,8 +48,9 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
     }
 
     @Override
-    public void save(AppUser appUser) {
+    public AppUser save(AppUser appUser) {
         iAppUserRepository.save(appUser);
+        return appUser;
     }
 
     @Override
