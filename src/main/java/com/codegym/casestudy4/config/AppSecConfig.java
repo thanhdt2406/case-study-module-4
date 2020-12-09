@@ -31,7 +31,7 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
-                .authorizeRequests().antMatchers("/shop/**").hasAnyRole("ADMIN", "SHOP")
+                .authorizeRequests().antMatchers("/shops/**").hasAnyRole("ADMIN", "SHOP")
                 .and()
                 .authorizeRequests().antMatchers("/user/**").hasAnyRole("ADMIN", "SHOP", "USER")
                 .and()
