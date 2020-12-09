@@ -48,8 +48,8 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
     }
 
     @Override
-    public void save(AppUser appUser) {
-
+    public AppUser save(AppUser appUser) {
+        return null;
     }
 
     @Override
