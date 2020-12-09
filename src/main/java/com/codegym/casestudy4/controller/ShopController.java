@@ -2,6 +2,7 @@ package com.codegym.casestudy4.controller;
 
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Shop;
+import com.codegym.casestudy4.repo.IProductRepository;
 import com.codegym.casestudy4.repo.IShopRepository;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.shop.IShopService;
@@ -24,14 +25,21 @@ public class ShopController {
     @Autowired
     private IAppUserService iAppUserService;
 
-    @ModelAttribute("users")
-    public Iterable<AppUser> appUsers() {
-        return iAppUserService.findAll();
+    @Autowired
+    private IProductRepository productRepository;
+
+    @ModelAttribute("currentShop")
+    public Shop currentShop(){
+        Long id = iAppUserService.getUserLogin().getAppUserId();
+       return iShopService.findByUserID(id);
     }
+
 
     @GetMapping
     public ModelAndView index(){
-        return new ModelAndView("shop/shop-index");
+        ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
+        modelAttribute.addObject("products",productRepository.findAllByShop_ShopId(currentShop().getShopId()));
+        return modelAttribute;
     }
 
     @GetMapping("/")

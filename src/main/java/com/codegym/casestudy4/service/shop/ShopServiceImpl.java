@@ -29,4 +29,11 @@ public class ShopServiceImpl implements IShopService{
     public void delete(Long id) {
         iShopRepository.deleteById(id);
     }
+
+    @Override
+    public Shop findByUserID(Long userId) {
+        Shop shop = iShopRepository.findByAppUser_AppUserId(userId);
+        System.out.println(shop.getName());
+        return shop;
+    }
 }
