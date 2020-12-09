@@ -28,5 +28,8 @@ public class ProductController {
         return new ResponseEntity<>(productService.findById(id).get(), HttpStatus.OK);
     }
 
-
+    @GetMapping("")
+    public ModelAndView getAllProduct(){
+        return new ModelAndView("index","products",productService.findAll());
+    }
 }
