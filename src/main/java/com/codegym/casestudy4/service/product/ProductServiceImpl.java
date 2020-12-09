@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements IProductService{
+public class ProductServiceImpl implements IProductService {
     @Autowired
     private IProductRepository productRepository;
 
@@ -19,12 +19,12 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Optional<Product> findById(Long id) {
-        return Optional.empty();
+        return productRepository.findById(id);
     }
 
     @Override
-    public void save(Product product) {
-
+    public Product save(Product product) {
+        return null;
     }
 
     @Override
