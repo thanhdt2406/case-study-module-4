@@ -3,6 +3,7 @@ package com.codegym.casestudy4.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -56,4 +57,17 @@ public class Product {
     @Transient
     private MultipartFile productImage;
 
+    public Product(@NotNull String name, @Min(0) long price, @Min(0) int quantity, String image, String description, Date createDate, long views, double rating, boolean status, Shop shop, Category category) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.image = image;
+        this.description = description;
+        this.createDate = createDate;
+        this.views = views;
+        this.rating = rating;
+        this.status = status;
+        this.shop = shop;
+        this.category = category;
+    }
 }
