@@ -14,7 +14,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Iterable<Product> findAll() {
-        return null;
+        return productRepository.findAll();
     }
 
     @Override
