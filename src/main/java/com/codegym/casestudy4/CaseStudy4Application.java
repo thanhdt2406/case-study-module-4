@@ -9,7 +9,5 @@ public class CaseStudy4Application {
 
     public static void main(String[] args) {
         SpringApplication.run(CaseStudy4Application.class, args);
-        AppUser appUser = new AppUser();
     }
-
 }
