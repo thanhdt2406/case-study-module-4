@@ -46,6 +46,14 @@ public class ProductController {
     @Autowired
     private Environment env;
 
+    @Autowired
+    private IAppUserService appUserService;
+
+    @ModelAttribute("currentUser")
+    public AppUser currentUser(){
+        return appUserService.getUserLogin();
+    }
+
     @ModelAttribute("category")
     public Iterable<Category> categories() {
         return iCategoryService.findAll();
@@ -56,10 +64,7 @@ public class ProductController {
         Long id = iAppUserService.getUserLogin().getAppUserId();
         return iShopService.findByUserID(id);
     }
-    @ModelAttribute("currentUser")
-    public AppUser currentUser() {
-        return iAppUserService.getUserLogin();
-    }
+
 
 //    @Value("${upload.path}")
 //    private String fileUpload;
