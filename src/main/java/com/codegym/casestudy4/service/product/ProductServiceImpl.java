@@ -43,4 +43,11 @@ public class ProductServiceImpl implements IProductService {
     public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
         return productRepository.findAllByNameContaining(name, pageable);
     }
+
+    @Override
+    public Iterable<Product> findAllProductAvailable(Long shopId) {
+        return productRepository.findAllByShop_ShopIdAndStatusTrue(shopId);
+    }
+
+
 }
