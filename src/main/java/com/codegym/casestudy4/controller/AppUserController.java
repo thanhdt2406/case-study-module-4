@@ -24,7 +24,6 @@ public class AppUserController {
         return productService.findAll();
     }
 
-
     @GetMapping
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("name") Optional<String> name){
         Page<Product> products;
@@ -35,7 +34,6 @@ public class AppUserController {
         }
         return new ModelAndView("index","products",products);
     }
-//    toan lol
 
 //xzczxzxcxc
 
