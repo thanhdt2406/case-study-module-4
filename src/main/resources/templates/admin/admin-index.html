@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/layout::head"></th:block>
+    <title>Admin|HomePage</title>
+</head>
+<body>
+
+<header th:replace="/layout::admin-header"><!--header--></header><!--/header-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div th:replace="/layout::admin-left-sidebar"></div>
+
+<!--            <div class="col-sm-9 padding-right">-->
+<!--                <h2 class="title text-center">All Products</h2>-->
+<!--                <div class="features_items">&lt;!&ndash;features_items&ndash;&gt;-->
+<!--                    <div class="col-sm-4">-->
+<!--                        <div class="product-image-wrapper">-->
+<!--                            <div class="single-products">-->
+<!--                                <div class="productinfo text-center">-->
+<!--                                    <img th:src="${product.getImage()}" alt=""/>-->
+<!--                                    <h2 th:text="${product.getPrice()}"></h2>-->
+<!--                                    <p>Easy Polo Black Edition</p>-->
+<!--                                    <a href="/products" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Product-->
+<!--                                        Detail</a>-->
+<!--                                </div>-->
+<!--                                <div class="product-overlay">-->
+<!--                                    <div class="overlay-content">-->
+<!--                                        <p th:text="${product.getName()}"></p>-->
+<!--                                        <h2 th:text="${product.getPrice()}"></h2>-->
+<!--                                        <a th:href="@{/shops/product-detail/__${product.getProductId()}__}" class="btn btn-default add-to-cart"><i-->
+<!--                                                class="fa fa-shopping-cart"></i>Product Detail</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    </span>-->
+<!--                </div>&lt;!&ndash;features_items&ndash;&gt;-->
+<!--            </div>-->
+        </div>
+    </div>
+</section>
+
+<footer th:replace="/layout::footer"><!--Footer-->
+</footer><!--/Footer-->
+
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollUp.min.js"></script>
+<script src="js/price-range.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
