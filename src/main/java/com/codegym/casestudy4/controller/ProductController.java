@@ -1,9 +1,13 @@
 package com.codegym.casestudy4.controller;
 
+import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Category;
 import com.codegym.casestudy4.model.Product;
+import com.codegym.casestudy4.model.Shop;
+import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
+import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -34,11 +38,27 @@ public class ProductController {
     private ICategoryService iCategoryService;
 
     @Autowired
+    private IAppUserService iAppUserService;
+
+    @Autowired
+    private IShopService iShopService;
+
+    @Autowired
     private Environment env;
 
     @ModelAttribute("category")
     public Iterable<Category> categories() {
         return iCategoryService.findAll();
+    }
+
+    @ModelAttribute("currentShop")
+    public Shop currentShop() {
+        Long id = iAppUserService.getUserLogin().getAppUserId();
+        return iShopService.findByUserID(id);
+    }
+    @ModelAttribute("currentUser")
+    public AppUser currentUser() {
+        return iAppUserService.getUserLogin();
     }
 
 //    @Value("${upload.path}")
@@ -68,13 +88,13 @@ public class ProductController {
 
     @GetMapping("/create")
     public ModelAndView showFormCreate(){
-        ModelAndView modelAndView = new ModelAndView("/shop/createForm");
-        modelAndView.addObject("shop/createForm", new Product());
+        ModelAndView modelAndView = new ModelAndView("shop/add-new-product");
+        modelAndView.addObject("products", new Product());
         return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView creatTask(@ModelAttribute Product product){
+    public ModelAndView creatNewProduct(@ModelAttribute Product product){
 //        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop().getName(), product.getCategory().getName());
         MultipartFile multipartFile = product.getProductImage();
         String fileName = multipartFile.getOriginalFilename();
@@ -84,11 +104,14 @@ public class ProductController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        product.setImage(fileName);
-        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
+        product.setImage(fileName);
 
-        productService.save(productDB);
-        ModelAndView modelAndView = new ModelAndView("/shop/createForm");
+//        product.setImage(fileName);
+//        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
+        product.setShop(currentShop());
+        product.setStatus(true);
+        productService.save(product);
+        ModelAndView modelAndView = new ModelAndView("shop/add-new-product");
         modelAndView.addObject("products", new Product());
         modelAndView.addObject("message", "ADD PRODUCT OK");
         return modelAndView;
