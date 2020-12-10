@@ -40,13 +40,15 @@
 									<span th:text="${product.getPrice()}">US </span>
 									<label>Quantity:</label>
 									<input type="text" th:value="${product.getQuantity()}"/>
-									<button type="button" class="btn btn-fefault cart">
-										<i class="fa fa-shopping-cart"></i>
-										Add to cart
-									</button>
+
 								</span>
-                            <p><b>Quantity</b> Numberrrrrrrrrrrr</p>
-                            <a href="#"><img src="images/product-details/share.png" class="share img-responsive" alt=""/></a>
+                            <hr>
+                            <button type="button" class="btn btn-fefault cart">
+                                Edit product
+                            </button>
+                            <button type="button" class="btn btn-fefault cart">
+                                Disable
+                            </button>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
