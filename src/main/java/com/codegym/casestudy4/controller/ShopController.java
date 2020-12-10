@@ -1,6 +1,7 @@
 package com.codegym.casestudy4.controller;
 
 import com.codegym.casestudy4.model.AppUser;
+import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.model.Shop;
 
 import com.codegym.casestudy4.repo.IProductRepository;
@@ -38,6 +39,10 @@ public class ShopController {
         Long id = iAppUserService.getUserLogin().getAppUserId();
         return iShopService.findByUserID(id);
     }
+    @ModelAttribute("currentUser")
+    public AppUser currentUser() {
+        return iAppUserService.getUserLogin();
+    }
 
     @GetMapping
     public ModelAndView index() {
@@ -47,7 +52,7 @@ public class ShopController {
     }
     @GetMapping("/product-detail/{id}")
     public ModelAndView productDetail(@PathVariable("id") Long id){
-        return new ModelAndView("shop/product-details-shop","product",productService.findById(id));
+        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
     }
 
     @GetMapping("/")
