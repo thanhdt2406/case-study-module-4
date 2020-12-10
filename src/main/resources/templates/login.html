@@ -40,12 +40,18 @@
 					<div class="signup-form"><!--sign up form-->
 						<h2>New User Signup!</h2>
 						<form th:action="@{/signup}" method="post" th:object="${appuser}">
-							<input type="text" name="username" placeholder="Username"/>
-                            <input type="password" name="password" placeholder="Password"/>
-                            <input type="text" name="name" placeholder="Name"/>
-                            <input type="text" name="phoneNumber" placeholder="Phone number"/>
-							<input type="email" name="email" placeholder="Email"/>
-							<input type="text" name="address" placeholder="Address"/>
+							<input type="text" name="username" th:field="*{username}" placeholder="Username"/>
+<!--							<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>-->
+                            <input type="password" name="password" th:field="*{password}" placeholder="Password"/>
+<!--							<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>-->
+							<input type="text" name="name" th:field="*{name}" placeholder="Name"/>
+<!--							<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+							<input type="text" name="phoneNumber" th:field="*{phoneNumber}" placeholder="Phone number"/>
+<!--							<span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>-->
+							<input type="email" name="email" th:field="*{email}" placeholder="Email"/>
+<!--							<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+							<input type="text" name="address" th:field="*{address}" placeholder="Address"/>
+<!--							<span th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>-->
 							<div th:if="${param.signupfailed}">
 								<div class="alert alert-danger">
 									<span th:text="'Signup failed. Please try again!'"></span>

@@ -1,7 +1,9 @@
 package com.codegym.casestudy4.controller;
 
+import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Category;
 import com.codegym.casestudy4.model.Product;
+import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,14 @@ public class ProductController {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private IAppUserService appUserService;
+
+    @ModelAttribute("currentUser")
+    public AppUser currentUser(){
+        return appUserService.getUserLogin();
+    }
 
     @ModelAttribute("category")
     public Iterable<Category> categories() {
