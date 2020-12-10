@@ -5,18 +5,18 @@
     <title>Product Details | E-Shopper</title>
 </head><!--/head-->
 <script>
-    function img(){
+    function img() {
         let img = document.getElementsByTagName("img");
 
-        for (let i = 0; i<img.length; i++){
+        for (let i = 0; i < img.length; i++) {
             let src = img[i].getAttribute("src");
-            img[i].setAttribute("src","../../../"+src);
+            img[i].setAttribute("src", "../../../" + src);
         }
     }
 </script>
 <body onload="img()">
 <header th:replace="/layout::shop-user-header"><!--header--></header><!--/header-->
-        <h1 th:text="${currentShop.getName()}"></h1>
+<h1 th:text="${currentShop.getName()}"></h1>
 
 <section>
     <div class="container">
@@ -40,15 +40,14 @@
 									<span th:text="${product.getPrice()}">US </span>
 									<label>Quantity:</label>
 									<input type="text" th:value="${product.getQuantity()}"/>
-
-								</span>
+                            </span>
                             <hr>
-                            <button type="button" class="btn btn-fefault cart">
-                                Edit product
-                            </button>
-                            <button type="button" class="btn btn-fefault cart">
-                                Disable
-                            </button>
+                            <a th:href="@{/products/edit/__${product.getProductId()}__}">
+                                <button type="button" class="btn btn-fefault cart">Edit product</button>
+                            </a>
+                            <a th:href="@{/products/delete/__${product.getProductId()}__}">
+                                <button type="button" class="btn btn-fefault cart">Disable</button>
+                            </a>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->

@@ -25,7 +25,7 @@
                                 <div class="productinfo text-center">
                                     <img th:src="${product.getImage()}" alt=""/>
                                     <h2 th:text="${product.getPrice()}"></h2>
-                                    <p>Easy Polo Black Edition</p>
+                                    <p th:text="${product.getName()}"></p>
                                     <a href="/products" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Product
                                         Detail</a>
                                 </div>
@@ -33,7 +33,7 @@
                                     <div class="overlay-content">
                                         <p th:text="${product.getName()}"></p>
                                         <h2 th:text="${product.getPrice()}"></h2>
-                                        <a th:href="@{/shops/product-detail/__${product.getProductId()}__}" class="btn btn-default add-to-cart"><i
+                                        <a th:href="@{/products/product-detail/__${product.getProductId()}__}" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Product Detail</a>
                                     </div>
                                 </div>

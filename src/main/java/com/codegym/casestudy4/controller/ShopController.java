@@ -29,9 +29,6 @@ public class ShopController {
     private IAppUserService iAppUserService;
 
     @Autowired
-    private IProductRepository productRepository;
-
-    @Autowired
     private IProductService productService;
 
     @ModelAttribute("currentShop")
@@ -47,12 +44,8 @@ public class ShopController {
     @GetMapping
     public ModelAndView index() {
         ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
-        modelAttribute.addObject("products", productRepository.findAllByShop_ShopId(currentShop().getShopId()));
+        modelAttribute.addObject("products", productService.findAllProductAvailable(currentShop().getShopId()));
         return modelAttribute;
-    }
-    @GetMapping("/product-detail/{id}")
-    public ModelAndView productDetail(@PathVariable("id") Long id){
-        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
     }
 
     @GetMapping("/")

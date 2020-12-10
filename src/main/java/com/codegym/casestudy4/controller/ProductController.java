@@ -46,7 +46,12 @@ public class ProductController {
 
     @GetMapping("/details/{id}")
     public ModelAndView showProductDetail(@PathVariable("id") Long id){
-        return new ModelAndView("product-details","product",productService.findById(id).get());
+        return new ModelAndView("user/product-details","product",productService.findById(id).get());
+    }
+
+    @GetMapping("/product-detail/{id}")
+    public ModelAndView productDetail_Shop(@PathVariable("id") Long id){
+        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
     }
 
     @GetMapping("/detail/{id}")
