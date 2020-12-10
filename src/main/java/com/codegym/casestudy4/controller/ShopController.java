@@ -39,7 +39,6 @@ public class ShopController {
         return iShopService.findByUserID(id);
     }
 
-
     @GetMapping
     public ModelAndView index() {
         ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
@@ -73,12 +72,13 @@ public class ShopController {
     @GetMapping("/edit")
     public ModelAndView editForm() {
         ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
-        modelAndView.addObject("shop", iShopService.findById(currentShop().getShopId()));
+        Shop shop =iShopService.findById(currentShop().getShopId()).get();
+        modelAndView.addObject("shop", shop);
         return modelAndView;
     }
 
     @PostMapping("/edit")
-    public ModelAndView edit(@Valid @ModelAttribute Shop shop, HttpServletResponse response) {
+    public ModelAndView edit(@Valid @ModelAttribute Shop shop) {
         iShopService.save(shop);
         ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
         modelAndView.addObject("shop",shop);

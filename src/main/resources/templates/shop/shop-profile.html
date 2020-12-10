@@ -28,7 +28,7 @@
                 <div class="col-sm-4">
                     <div class="signup-form"><!--sign up form-->
                         <form method="post" th:object="${shop}">
-<!--                            <input type="hidden" name="shopId" th:value="${shop.getShopId()}">-->
+                            <input type="hidden" name="shopId" th:value="${shop.getShopId()}">
                             <div>
                                 <label>Name</label>
                                 <input type="text" name="name" th:value="${shop.getName()}">
@@ -41,7 +41,9 @@
                                 <label>Description</label>
                                 <textarea type="text" name="description" th:value="${shop.getDescription()}"></textarea>
                             </div>
+                            <input type="hidden" name="appUser" th:value="${shop.getAppUser().getAppUserId()}">
                             <button type="submit" class="btn btn-default">Edit</button>
+
                         </form>
                     </div><!--/sign up form-->
                 </div>

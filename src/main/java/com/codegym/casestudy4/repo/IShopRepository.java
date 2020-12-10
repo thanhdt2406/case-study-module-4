@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface IShopRepository extends JpaRepository<Shop, Long> {
-    @Query
     Shop findByAppUser_AppUserId(Long userId);
 }
