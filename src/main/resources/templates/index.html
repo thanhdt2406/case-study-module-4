@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<th:block th:replace="/layout::head"></th:block>
-<title>Home | E-Shopper</title>
+    <th:block th:replace="/layout::head"></th:block>
+    <title>Home | E-Shopper</title>
 </head><!--/head-->
 
 <body>
@@ -83,67 +83,21 @@
             <div th:replace="/layout::user-left-sidebar"></div>
 
             <div class="col-sm-9 padding-right">
-                <h2 class="title text-center">Features Items</h2>
+                <h2 class="title text-center">All product</h2>
                 <div class="features_items">
-
-                    <div class="col-sm-4">
+                    <div th:each="pro: ${products}" class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img src="/images/home/product1.jpg" alt=""/>
-                                    <h2>$56</h2>
+                                    <img th:src="'../'+ ${pro.getImage()}" alt=""/>
+                                    <h2 th:text="${pro.getPrice()}"></h2>
                                     <p>Easy Polo Black Edition</p>
                                     <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                         to cart</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="/images/home/product2.jpg" alt=""/>
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$100</h2>
-                                        <p>Abc</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="/images/home/product3.jpg" alt=""/>
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
+                                        <h2 th:text="${pro.getPrice()}"></h2>
                                         <p>Easy Polo Black Edition</p>
                                         <a href="#" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -153,72 +107,11 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="/images/home/product4.jpg" alt=""/>
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="/images/home/product5.jpg" alt=""/>
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="product-image-wrapper">
-                            <div class="single-products">
-                                <div class="productinfo text-center">
-                                    <img src="/images/home/product6.jpg" alt=""/>
-                                    <h2>$56</h2>
-                                    <p>Easy Polo Black Edition</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
-                                </div>
-                                <div class="product-overlay">
-                                    <div class="overlay-content">
-                                        <h2>$56</h2>
-                                        <p>Easy Polo Black Edition</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                </div>
+                <div>
+                        <a th:href="@{'/'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+                        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+                        <a th:href="@{'/'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
                 </div>
 
             </div>
