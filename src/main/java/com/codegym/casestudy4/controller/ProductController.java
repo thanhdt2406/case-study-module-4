@@ -62,7 +62,7 @@ public class ProductController {
         }else {
             products = productService.findAll(pageable);
         }
-        return new ModelAndView("/index","products",productService.findAll());
+        return new ModelAndView("index","products",productService.findAll());
     }
 
 

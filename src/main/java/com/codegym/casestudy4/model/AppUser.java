@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table
@@ -20,13 +21,13 @@ public class AppUser {
     private Long appUserId;
 
     @Column(unique = true)
-    @Min(6)
+    @Size(min=6)
     private String username;
 
-    @Min(6)
+    @Size(min=6)
     private String password;
 
-    @Min(1)
+    @Size(min=1)
     private String name;
 
     @NotNull
@@ -46,7 +47,7 @@ public class AppUser {
     private AppRole appRole;
 
 
-    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
+    public AppUser(@Size(min=6) String username, @Size(min=6) String password, @Size(min=1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -56,7 +57,7 @@ public class AppUser {
         this.appRole = appRole;
     }
 
-    public AppUser(Long appUserId, @Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
+    public AppUser(Long appUserId, @Size(min=6) String username, @Size(min=6) String password, @Size(min=1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, AppRole appRole) {
         this.appUserId = appUserId;
         this.username = username;
         this.password = password;
@@ -67,7 +68,7 @@ public class AppUser {
         this.appRole = appRole;
     }
 
-    public AppUser(@Min(6) String username, @Min(6) String password, @Min(1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, boolean status, AppRole appRole) {
+    public AppUser(@Size(min=6) String username, @Size(min=6) String password, @Size(min=1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address, boolean status, AppRole appRole) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -76,5 +77,14 @@ public class AppUser {
         this.address = address;
         this.status = status;
         this.appRole = appRole;
+    }
+
+    public AppUser(@Size(min=6) String username, @Size(min=6) String password, @Size(min=1) String name, @NotNull String phoneNumber, @Email String email, @NotNull String address) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
     }
 }
