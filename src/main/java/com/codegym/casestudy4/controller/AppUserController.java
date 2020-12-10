@@ -35,6 +35,4 @@ public class AppUserController {
         return new ModelAndView("index","products",products);
     }
 
-//xzczxzxcxc
-
 }
