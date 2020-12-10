@@ -5,6 +5,7 @@ import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.repo.IProductRepository;
 import com.codegym.casestudy4.repo.IShopRepository;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
+import com.codegym.casestudy4.service.product.IProductService;
 import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,23 +29,30 @@ public class ShopController {
     @Autowired
     private IProductRepository productRepository;
 
+    @Autowired
+    private IProductService productService;
+
     @ModelAttribute("currentShop")
-    public Shop currentShop(){
+    public Shop currentShop() {
         Long id = iAppUserService.getUserLogin().getAppUserId();
-       return iShopService.findByUserID(id);
+        return iShopService.findByUserID(id);
     }
 
 
     @GetMapping
-    public ModelAndView index(){
+    public ModelAndView index() {
         ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
-        modelAttribute.addObject("products",productRepository.findAllByShop_ShopId(currentShop().getShopId()));
+        modelAttribute.addObject("products", productRepository.findAllByShop_ShopId(currentShop().getShopId()));
         return modelAttribute;
+    }
+    @GetMapping("/product-detail/{id}")
+    public ModelAndView productDetail(@PathVariable("id") Long id){
+        return new ModelAndView("shop/product-details-shop","product",productService.findById(id));
     }
 
     @GetMapping("/")
     public ResponseEntity<Iterable<Shop>> getAll() {
-        return new ResponseEntity<>(iShopService.findAll(),HttpStatus.OK);
+        return new ResponseEntity<>(iShopService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/list")
@@ -76,7 +84,6 @@ public class ShopController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @DeleteMapping("/{id}")
@@ -84,8 +91,4 @@ public class ShopController {
         iShopService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
 }

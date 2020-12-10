@@ -40,7 +40,7 @@
                                     <div class="overlay-content">
                                         <p th:text="${product.getName()}"></p>
                                         <h2 th:text="${product.getPrice()}"></h2>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
+                                        <a th:href="@{/shops/product-detail/__${product.getProductId()}__}" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Product Detail</a>
                                     </div>
                                 </div>
