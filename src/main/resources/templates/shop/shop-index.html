@@ -4,18 +4,10 @@
     <th:block th:replace="/layout::head"></th:block>
     <title>Shop|HomePage</title>
 </head>
-<style>
-    .shop-page_info{
-        height: 200px;
-        background-color: #3c763d;
-        padding: revert;
-    }
-</style>
 <body>
 
 <header th:replace="/layout::shop-user-header"><!--header--></header><!--/header-->
 
-<div class="shop-page_info"></div>
 <hr>
 <h1 th:text="${currentShop.getName()}"></h1>
 <section>
