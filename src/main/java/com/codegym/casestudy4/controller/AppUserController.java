@@ -34,14 +34,4 @@ public class AppUserController {
         }
         return new ModelAndView("index","products",products);
     }
-//czxcasdasd
-    zxczxc
-    /zxczxc
-    /zx
-    c/z
-    xc/z
-    xc/
-//xzczxzxcxc
-
-
 }
