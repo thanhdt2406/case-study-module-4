@@ -3,6 +3,8 @@ package com.codegym.casestudy4.service.product;
 import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.repo.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,5 +32,15 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void delete(Long id) {
 
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByNameContaining(String name, Pageable pageable) {
+        return productRepository.findAllByNameContaining(name, pageable);
     }
 }

@@ -2,6 +2,7 @@ package com.codegym.casestudy4.controller;
 
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Shop;
+
 import com.codegym.casestudy4.repo.IProductRepository;
 import com.codegym.casestudy4.repo.IShopRepository;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
@@ -10,7 +11,6 @@ import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
