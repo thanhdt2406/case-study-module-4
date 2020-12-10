@@ -21,7 +21,7 @@ public class Rating {
     @Column(columnDefinition = "longtext")
     private String comment;
 
-    @Min(1)
+    @Min(0)
     @Max(5)
     private int stars;
 
