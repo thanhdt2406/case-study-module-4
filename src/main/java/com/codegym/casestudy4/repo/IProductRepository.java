@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface IProductRepository extends PagingAndSortingRepository<Product,Long> {
     Iterable<Product> findTop5ByOrderByRatingDesc();
 
+    @Override
+    Page<Product> findAll(Pageable pageable);
 
     Page<Product> findAllByNameContaining(String name, Pageable pageable);
 

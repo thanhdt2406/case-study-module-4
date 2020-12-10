@@ -19,11 +19,11 @@
                 <h2 class="title text-center">All Products</h2>
                 <div class="features_items"><!--features_items-->
                     <span th:each="product :${products}">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" style="padding: 20px">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img th:src="${product.getImage()}" alt=""/>
+                                    <img th:src="${product.getImage()}" alt="" width="500px" height="300px"/>
                                     <h2 th:text="${product.getPrice()}"></h2>
                                     <p th:text="${product.getName()}"></p>
                                     <a href="/products" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Product

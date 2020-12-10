@@ -19,10 +19,10 @@ public class AppUserController {
     @Autowired
     private IProductService productService;
 
-    @ModelAttribute("products")
-    public Iterable<Product> products() {
-        return productService.findAll();
-    }
+//    @ModelAttribute("products")
+//    public Iterable<Product> products() {
+//        return productService.findAll();
+//    }
 
     @GetMapping
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("name") Optional<String> name){
@@ -34,7 +34,4 @@ public class AppUserController {
         }
         return new ModelAndView("index","products",products);
     }
-
-
-
 }
