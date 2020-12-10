@@ -35,18 +35,4 @@ public class AppUserController {
         return new ModelAndView("index","products",products);
     }
 
-
-    @GetMapping("/user")
-    public String user(){
-        return "user";
-    }
-    @GetMapping("/shop")
-    public String shop(){
-        return "shop/shop-index";
-    }
-    @GetMapping("/admin")
-    public String admin(){
-        return "admin/admin";
-    }
-
 }
