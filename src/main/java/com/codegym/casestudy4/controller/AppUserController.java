@@ -7,10 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
@@ -35,8 +32,10 @@ public class AppUserController {
         }else {
             products = productService.findAll(pageable);
         }
-        return new ModelAndView("/index","products",products);
+        return new ModelAndView("index","products",products);
     }
+
+
     @GetMapping("/user")
     public String user(){
         return "user";

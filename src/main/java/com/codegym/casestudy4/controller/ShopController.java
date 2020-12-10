@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -69,21 +70,20 @@ public class ShopController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/edit/{id}")
-    public ModelAndView editForm(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("shop/edit");
-        modelAndView.addObject("shop", iShopService.findById(id));
+    @GetMapping("/edit")
+    public ModelAndView editForm() {
+        ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
+        modelAndView.addObject("shop", iShopService.findById(currentShop().getShopId()));
         return modelAndView;
     }
 
-    @PostMapping("/edit/{id}")
-    public void edit(@ModelAttribute Shop shop, HttpServletResponse response) {
+    @PostMapping("/edit")
+    public ModelAndView edit(@Valid @ModelAttribute Shop shop, HttpServletResponse response) {
         iShopService.save(shop);
-        try {
-            response.sendRedirect("/shops/list");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
+        modelAndView.addObject("shop",shop);
+        modelAndView.addObject("message", "UPDATE OK");
+        return modelAndView;
     }
 
     @DeleteMapping("/{id}")
