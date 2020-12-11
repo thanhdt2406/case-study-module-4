@@ -49,12 +49,15 @@ public class CustomerController {
         return new ModelAndView("customer/customer-index","products",productsList);
     }
 
-    @GetMapping("/categoryname")
-    public ResponseEntity<Iterable<Product>> getAllProByCategory(@RequestParam(value = "name",required = false) String categoryName) {
-        Optional<Category> category = categoryService.findCategoryByName(categoryName);
-        Iterable<Product> allProductByCategory = productService.findAllByCategory(category.get());
-        return new ResponseEntity<>(allProductByCategory, HttpStatus.OK);
+    @GetMapping("cart")
+    public ModelAndView showCart(){
+        ModelAndView modelAndView = new ModelAndView("customer/cart");
+        return modelAndView;
+    }
 
-
+    @GetMapping("addItem")
+    public ModelAndView addItem(){
+        ModelAndView modelAndView = new ModelAndView("customer/cart");
+        return modelAndView;
     }
 }
