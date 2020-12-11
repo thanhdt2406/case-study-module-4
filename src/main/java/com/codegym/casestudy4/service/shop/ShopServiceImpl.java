@@ -1,8 +1,11 @@
 package com.codegym.casestudy4.service.shop;
 
+import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.repo.IShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,4 +39,15 @@ public class ShopServiceImpl implements IShopService{
         System.out.println(shop.getName());
         return shop;
     }
+
+    @Override
+    public void changeShopStatus(Long id) {
+        iShopRepository.changeShopStatus(id);
+    }
+
+    @Override
+    public Page<Shop> findShopAvailable(Pageable pageable, boolean isAvailable) {
+        return iShopRepository.findShopAvailable(pageable,isAvailable);
+    }
+
 }

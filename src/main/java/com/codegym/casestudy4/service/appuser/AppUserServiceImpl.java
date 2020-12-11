@@ -3,6 +3,8 @@ package com.codegym.casestudy4.service.appuser;
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.repo.IAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,17 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
         String username = authentication.getName();
         return getUserByUsername(username);
     }
+
+    @Override
+    public void changeUserStatus(Long id) {
+        iAppUserRepository.changeUserStatus(id);
+    }
+
+    @Override
+    public Page<AppUser> findAppUserAvailable(Pageable pageable, String roleName, boolean isAvailable) {
+        return iAppUserRepository.findAppUserAvailable(pageable,roleName,isAvailable);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -25,6 +25,11 @@ public class SecController {
         return "/deny";
     }
 
+//    @GetMapping("/")
+//    public String index() {
+//        return "index";
+//    }
+
     @GetMapping("/users")
     public String user() {
         return "user";
