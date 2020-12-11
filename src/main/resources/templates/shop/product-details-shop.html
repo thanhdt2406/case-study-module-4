@@ -7,10 +7,18 @@
 <script>
     function img() {
         let img = document.getElementsByTagName("img");
-
         for (let i = 0; i < img.length; i++) {
             let src = img[i].getAttribute("src");
             img[i].setAttribute("src", "../../../" + src);
+        }
+    }
+
+    function editForm() {
+        let form = document.getElementById("edit-form");
+        if (form.getAttribute("style") == "display: block") {
+            form.setAttribute("style", "display: none");
+        } else {
+            form.setAttribute("style", "display: block");
         }
     }
 </script>
@@ -31,30 +39,42 @@
                         </div>
                     </div>
                     <div class="col-sm-7">
-
-                        <div class="product-information"><!--sign up form-->
-                            <form method="post" enctype="multipart/form-data">
-                                <input type="hidden">
+                        <div class="product-information" id="edit-form" style="display: none"><!--sign up form-->
+                            <form method="post" th:object="${product}" action="/products/edit"
+                                  enctype="multipart/form-data">
+                                <input type="hidden" name="id" th:value="${product.getProductId()}"
+                                       th:field="*{productId}">
                                 <label for="">Name:</label>
-                                <input type="text" name="name" th:value="${product.getName()}"/><br>
+                                <input type="text" style="width: 200px" name="name" th:value="${product.getName()}"
+                                       th:field="*{name}"/><br>
                                 <span>
                                     <label>Price:</label>
-									<input type="text" th:value="${product.getPrice()}" style="width: 150px">
+									<input type="text" name="price" th:value="${product.getPrice()}" th:field="*{price}"
+                                           style="width: 150px">
 									<label>Quantity:</label>
-									<input type="text" th:value="${product.getQuantity()}"/>
+									<input type="number" name="quantity" th:value="${product.getQuantity()}"/>
                                 </span>
-                                <input type="file" name="productImage" th/>
-                                <br><labbel>Description:</labbel>
-                                <textarea th:text="${product.getDescription()}"></textarea>
+                                <input type="file" name="productImage" th:text="${product.getImage()}"/>
 
-                                <br><br><button type="submit" class="btn btn-default">Save</button>
+                                <br>
+                                <label for="category">Category:</label>
+                                <select name="category" id="category" th:field="*{category}">
+                                    <option th:each="cate:${category}" th:value="${cate.categoryId}"
+                                            th:text="${cate.name}"></option>
+                                </select>
+                                <br>
+                                <labbel>Description:</labbel>
+                                <textarea th:text="${product.getDescription()}" th:field="*{description}"></textarea>
+
+                                <br><br>
+                                <button type="submit" class="btn btn-fefault cart" onclick="editForm()">Save</button>
                             </form>
                         </div><!--/sign up form-->
 
-                        <div class="product-information" style="display: block"><!--/product-information-->
+                        <div class="product-information"><!--/product-information-->
                             <img src="images/product-details/new.jpg" class="newarrival" alt=""/>
                             <h2 th:text="${product.getName()}">Anne Klein Sleeveless Colorblock Scuba</h2>
-                            <p>Web ID: 1089772</p>
+                            <p th:text="${currentShop.getName()}"></p>
                             <img src="images/product-details/rating.png" alt=""/>
                             <span>
 									<span th:text="${product.getPrice()}">US </span>
@@ -62,9 +82,8 @@
 									<input type="text" th:value="${product.getQuantity()}"/>
                             </span>
                             <hr>
-                            <a th:href="@{/products/edit/__${product.getProductId()}__}">
-                                <button type="button" class="btn btn-fefault cart">Edit product</button>
-                            </a>
+                            <button type="button" class="btn btn-fefault cart" onclick="editForm()">Edit product
+                            </button>
                             <a th:href="@{/products/delete/__${product.getProductId()}__}">
                                 <button type="button" class="btn btn-fefault cart">Disable</button>
                             </a>
@@ -82,14 +101,9 @@
                         <div class="tab-pane fade active in" id="reviews">
                             <div class="col-sm-12">
                                 <ul>
-                                    <li><a href=""><i class="fa fa-user"></i>Shop name</a></li>
-                                    <li><i class="fa fa-clock-o"></i>Create Date</li>
+                                    <li th:text="${product.getCreateDate()}"><i class="fa fa-clock-o"></i>Create Date</li>
                                 </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure
-                                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur.</p>
+                                <p th:text="${product.getDescription()}"></p>
                             </div>
                         </div>
 

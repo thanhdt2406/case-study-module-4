@@ -4,7 +4,17 @@
     <th:block th:replace="/layout::head"></th:block>
     <title>Add New Product</title>
 </head>
-<body>
+<script>
+    function img() {
+        let img = document.getElementsByTagName("img");
+
+        for (let i = 0; i < img.length; i++) {
+            let src = img[i].getAttribute("src");
+            img[i].setAttribute("src", "../../../" + src);
+        }
+    }
+</script>
+<body onload="img()">
 <header th:fragment="shop-user-header" id="header"><!--header-->
 
 </header><!--/header-->
