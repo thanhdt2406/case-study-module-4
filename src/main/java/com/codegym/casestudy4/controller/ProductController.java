@@ -48,6 +48,8 @@ public class ProductController {
 
     @Autowired
     private IAppUserService appUserService;
+    @Autowired
+    private IShopService shopService;
 
     @ModelAttribute("currentUser")
     public AppUser currentUser(){
@@ -75,8 +77,13 @@ public class ProductController {
     }
 
     @GetMapping("/product-detail/{id}")
-    public ModelAndView productDetail_Shop(@PathVariable("id") Long id){
-        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
+    public ModelAndView productDetail_Shop(@PathVariable("id") Long proId){
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        Long id = appUserService.getUserLogin().getAppUserId();
+
+        modelAndView.addObject("product",productService.findById(proId).get());
+        modelAndView.addObject("currentShop",shopService.findByUserID(id));
+        return modelAndView;
     }
 
     @GetMapping("/detail/{id}")
@@ -129,8 +136,8 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     ModelAndView showEditForm(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("shop/editForm");
-        modelAndView.addObject("products",productService.findById(id));
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        modelAndView.addObject("product",productService.findById(id));
         return modelAndView;
     }
 
@@ -138,22 +145,24 @@ public class ProductController {
     public ModelAndView editProduct(@ModelAttribute Product product) {
         Product product1 = productService.findById(product.getProductId()).get();
         MultipartFile multipartFile = product.getProductImage();
-        String image = null;
+        String image = multipartFile.getOriginalFilename();
         if (image.isEmpty()) {
             image = product1.getImage();
         }else {
             image = multipartFile.getOriginalFilename();
         }
-        product1.setImage(image);
+        product.setImage(image);
+        product.setStatus(true);
+        product.setShop(currentShop());
         String fileUpload = env.getProperty("upload.path").toString();
         try {
             FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + image));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        productService.save(product1);
-        ModelAndView modelAndView = new ModelAndView("shop/editForm");
-        modelAndView.addObject("products", product);
+        productService.save(product);
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        modelAndView.addObject("product", product);
         modelAndView.addObject("message", "UPDATE OKKKKKK");
         return modelAndView;
     }

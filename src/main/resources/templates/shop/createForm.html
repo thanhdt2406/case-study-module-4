@@ -4,7 +4,17 @@
     <th:block th:replace="/layout::head"></th:block>
     <title>Add New Product</title>
 </head>
-<body>
+<script>
+    function img() {
+        let img = document.getElementsByTagName("img");
+
+        for (let i = 0; i < img.length; i++) {
+            let src = img[i].getAttribute("src");
+            img[i].setAttribute("src", "../../../" + src);
+        }
+    }
+</script>
+<body onload="img()">
 <header th:fragment="shop-user-header" id="header"><!--header-->
 
 </header><!--/header-->
@@ -18,16 +28,15 @@
                 <div class="signup-form"><!--sign up form-->
                     <h2>New Product</h2>
                     <form method="post" th:object="${products}" enctype="multipart/form-data">
-                        <input type="hidden" >
                         <input type="text" name="name" placeholder="Enter Name"/>
                         <input type="number" name="price" placeholder="Enter Price"/>
                         <input type="number" name="quantity" placeholder="Enter quantity"/>
                         <input type="file" name="productImage" placeholder="Enter productImage"/>
-                        <textarea type="text" name="description" placeholder="Enter description"></textarea>
+                        <textarea type="text" name="description" placeholder="Enter description"></textarea><br>
                         <select name="category" id="">
                             <option th:each="cate:${category}" th:value="${cate.categoryId}" th:text="${cate.name}"></option>
                         </select>
-                        <button type="submit" class="btn btn-default">Signup</button>
+                   <button type="submit" class="btn btn-default">Signup</button>
                     </form>
                 </div><!--/sign up form-->
             </div>
