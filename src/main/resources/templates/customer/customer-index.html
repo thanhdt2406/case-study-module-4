@@ -29,10 +29,7 @@
 
 <body>
 <header id="header" ><!--header-->
-
-    <th:block th:replace="/customer/cus_layout::user-header"></th:block>
-
-    <h1>Customer</h1>
+    <th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
     <div class="header-bottom"><!--header-bottom-->
         <div class="container">
             <div class="row">
@@ -244,7 +241,7 @@
                                     <div class="overlay-content">
                                         <h2 th:text="${pro.getPrice()}"></h2>
                                         <p th:text="${pro.getName()}"></p>
-                                        <a href="/login" class="btn btn-default add-to-cart"><i
+                                        <a href="/customer/addItem" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                 </div>
