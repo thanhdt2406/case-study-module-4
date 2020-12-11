@@ -23,4 +23,6 @@ public interface IProductService extends IGeneralService<Product> {
 
     Iterable<Product> findAllByPriceAsc();
 
+    Iterable<Product> findAllProductOrderByStarsDesc();
+
 }
