@@ -1,5 +1,6 @@
 package com.codegym.casestudy4.service.product;
 
+import com.codegym.casestudy4.model.Category;
 import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.repo.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,16 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Iterable<Product> findAllProductAvailable(Long shopId) {
         return productRepository.findAllByShop_ShopIdAndStatusTrue(shopId);
+    }
+
+    @Override
+    public Page<Product> findAllByName(String name, Pageable pageable) {
+        return productRepository.findAllByName(name, pageable);
+    }
+
+    @Override
+    public Iterable<Product> findAllByCategory(Category category) {
+        return productRepository.findAllByCategory(category);
     }
 
 

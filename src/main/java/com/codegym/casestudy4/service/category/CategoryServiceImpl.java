@@ -10,6 +10,12 @@ import java.util.Optional;
 public class CategoryServiceImpl implements ICategoryService{
     @Autowired
     private ICategoryRepository iCategoryRepository;
+
+    @Override
+    public Optional<Category> findCategoryByName(String name) {
+        return iCategoryRepository.findByName(name);
+    }
+
     @Override
     public Iterable<Category> findAll() {
         return iCategoryRepository.findAll();

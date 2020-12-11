@@ -1,12 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <head>
     <th:block th:replace="/layout::head"></th:block>
     <title>Home | E-Shopper</title>
 </head><!--/head-->
 
 <body>
-<header th:replace="/layout::user-header"><!--header--></header><!--/header-->
+<header id="header" ><!--header-->
+    <th:block th:replace="/layout::user-header">
+    </th:block>
+
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="mainmenu pull-left">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            <li><a href="index.html" class="active">Home</a></li>
+                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="user/shop.html">Products</a></li>
+                                    <li><a href="user/product-details.html">Product Details</a></li>
+                                    <li><a href="user/checkout.html">Checkout</a></li>
+                                    <li><a href="user/cart.html">Cart</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="user/blog.html">Blog List</a></li>
+                                    <li><a href="user/blog-single.html">Blog Single</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="user/404.html">404</a></li>
+                            <li><a href="user/contact-us.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="search_box pull-right">
+                        <form action="">
+                            <input type="text" name="searchName" placeholder="Search"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->
 
 <section id="slider"><!--slider-->
     <div class="container">
@@ -77,28 +128,100 @@
 </section><!--/slider-->
 
 <section>
-    <div class="container">
+    <div class="container"  >
         <div class="row">
             <!--            left-sidebar-->
-            <div th:replace="/layout::user-left-sidebar"></div>
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="bags">Bags</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="balls">Balls</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="caps">Caps</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="clothes">Clothes</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="laptop">Laptop</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="shoes">Shoes</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="socks">Shocks</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#" onclick="loadItems(this)" name="television">Television</a></h4>
+                            </div>
+                        </div>
+
+                    </div><!--/category-products-->
+
+                    <div class="brands_products"><!--brands_products-->
+                        <h2>Sort</h2>
+                        <div class="brands-name">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#">Price Asc</a></li>
+                                <li><a href="#">Price Desc</a></li>
+                                <li><a href="#">Views</a></li>
+                                <li><a href="#">Rating</a></li>
+                            </ul>
+                        </div>
+                    </div><!--/brands_products-->
+
+                    <div class="price-range"><!--price-range-->
+                        <h2>Price Range</h2>
+                        <div class="well text-center">
+                            <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600"
+                                   data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br/>
+                            <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+                        </div>
+                    </div><!--/price-range-->
+
+                    <div class="shipping text-center"><!--shipping-->
+                        <img src="images/home/shipping.jpg" alt=""/>
+                    </div><!--/shipping-->
+                </div>
+            </div>
 
             <div class="col-sm-9 padding-right">
                 <h2 class="title text-center">All product</h2>
-                <div class="features_items">
+                <div class="features_items" id="product">
                     <div th:each="pro: ${products}" class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
-                                <div class="productinfo text-center">
+                                <div class="productinfo text-center" >
                                     <img th:src="'../'+ ${pro.getImage()}" alt="" width="300px" height="300px"/>
                                     <h2 th:text="${pro.getPrice()}"></h2>
-                                    <p>Easy Polo Black Edition</p>
+                                    <p th:text="${pro.getName()}"></p>
                                     <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                         to cart</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
                                         <h2 th:text="${pro.getPrice()}"></h2>
-                                        <p>Easy Polo Black Edition</p>
+                                        <p th:text="${pro.getName()}"></p>
                                         <a href="#" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
@@ -109,15 +232,85 @@
                     </div>
                 </div>
                 <div>
-<!--                        <a th:href="@{'/'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>-->
-<!--                        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>-->
-<!--                        <a th:href="@{'/'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>-->
+                        <a th:href="@{'/'(page=${products.number - 1})}" th:if="${products.hasPrevious()}">Previous</a>
+                        <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+                        <a th:href="@{'/'(page=${products.number + 1})}" th:if="${products.hasNext()}">Next</a>
                 </div>
 
             </div>
         </div>
     </div>
 </section>
+<script>
+    function loadItems(e) {
+        let category = e.getAttribute("name");
+// goi ajax
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+//tên API
+            url: `/categoryname?name=${category}`,
+//xử lý khi thành công
+            success: function (data) {
+              let content="";
+              for (let i=0;i<data.length;i++){
+                  content+=getProduct(data[i]);
+
+
+              }
+                document.getElementById('product').innerHTML=content;
+            }
+
+        })
+//chặn sự kiện mặc định của thẻ
+        event.preventDefault();
+    }
+
+    function successHandler() {
+        $.ajax({
+            type: "GET",
+//tên API
+            url: "/categoryname",
+//xử lý khi thành công
+            success: function (data) {
+// hien thi danh sach o day
+                let content = "";
+                for (let i = 0; i < data.length; i++) {
+                    content += getProduct(data[i]);
+                }
+                document.getElementById('classList').innerHTML = content;
+            }
+        });
+    }
+
+    function getProduct(pro) {
+        return `  <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center" >
+                                    <img src="../${pro.image}" alt="" width="300px" height="300px"/>
+                                    <h2 >${pro.price}</h2>
+                                    <p >${pro.name}</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
+                                        to cart</a>
+                                </div>
+                                <div class="product-overlay">
+                                    <div class="overlay-content">
+                                        <h2>${pro.price}</h2>
+                                        <p >${pro.name}</p>
+                                        <a href="#" class="btn btn-default add-to-cart"><i
+                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>`
+    }
+</script>
 
 <footer th:replace="/layout::footer"><!--Footer--></footer><!--/Footer-->
 

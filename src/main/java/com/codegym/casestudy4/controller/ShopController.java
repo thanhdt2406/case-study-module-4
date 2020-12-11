@@ -35,9 +35,6 @@ public class ShopController {
     @Autowired
     private IProductService productService;
 
-    @Autowired
-    private Environment env;
-
     @ModelAttribute("currentShop")
     public Shop currentShop() {
         Long id = iAppUserService.getUserLogin().getAppUserId();
@@ -97,31 +94,5 @@ public class ShopController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @GetMapping("/create")
-//    public ModelAndView showFormCreate(){
-//        ModelAndView modelAndView = new ModelAndView("/shop/add-new-product");
-//        modelAndView.addObject("products", new Product());
-//        return modelAndView;
-//    }
 
-//    @PostMapping("/create")
-//    public ModelAndView creatNewProduct(@ModelAttribute Product product){
-////        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop().getName(), product.getCategory().getName());
-//        MultipartFile multipartFile = product.getProductImage();
-//        String fileName = multipartFile.getOriginalFilename();
-//        String fileUpload = env.getProperty("upload.path").toString();
-//        try {
-//            FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        product.setImage(fileName);
-//        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
-//
-//        productService.save(productDB);
-//        ModelAndView modelAndView = new ModelAndView("/shop/add-new-product");
-//        modelAndView.addObject("products", new Product());
-//        modelAndView.addObject("message", "ADD PRODUCT OK");
-//        return modelAndView;
-//    }
 }
