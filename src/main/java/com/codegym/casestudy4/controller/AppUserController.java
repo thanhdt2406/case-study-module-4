@@ -43,7 +43,6 @@ public class AppUserController {
         Optional<Category> category = categoryService.findCategoryByName(categoryName);
         Iterable<Product> allProductByCategory = productService.findAllByCategory(category.get());
         return new ResponseEntity<>(allProductByCategory, HttpStatus.OK);
-
-
     }
+
 }

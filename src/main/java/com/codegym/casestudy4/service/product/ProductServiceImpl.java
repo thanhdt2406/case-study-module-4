@@ -60,5 +60,13 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findAllByCategory(category);
     }
 
+    @Override
+    public Iterable<Product> findAllByPriceDesc() {
+        return productRepository.findAllByOrderByPriceDesc();
+    }
 
+    @Override
+    public Iterable<Product> findAllByPriceAsc() {
+        return productRepository.findAllByOrOrderByPriceAsc();
+    }
 }
