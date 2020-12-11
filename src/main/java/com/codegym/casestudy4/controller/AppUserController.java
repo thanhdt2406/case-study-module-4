@@ -19,12 +19,7 @@ public class AppUserController {
     @Autowired
     private IProductService productService;
 
-    @ModelAttribute("products")
-    public Iterable<Product> products() {
-        return productService.findAll();
-    }
-
-    @GetMapping
+    @GetMapping()
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("name") Optional<String> name){
         Page<Product> products;
         if (name.isPresent()){
