@@ -42,5 +42,4 @@ public class SecController {
         return new ModelAndView ("login","appuser",new AppUser());
     }
 
-
 }
