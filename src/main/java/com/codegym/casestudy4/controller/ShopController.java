@@ -10,13 +10,17 @@ import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.product.IProductService;
 import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -27,9 +31,6 @@ public class ShopController {
 
     @Autowired
     private IAppUserService iAppUserService;
-
-    @Autowired
-    private IProductRepository productRepository;
 
     @Autowired
     private IProductService productService;
@@ -47,12 +48,8 @@ public class ShopController {
     @GetMapping
     public ModelAndView index() {
         ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
-        modelAttribute.addObject("products", productRepository.findAllByShop_ShopId(currentShop().getShopId()));
+        modelAttribute.addObject("products", productService.findAllProductAvailable(currentShop().getShopId()));
         return modelAttribute;
-    }
-    @GetMapping("/product-detail/{id}")
-    public ModelAndView productDetail(@PathVariable("id") Long id){
-        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
     }
 
     @GetMapping("/")
@@ -68,11 +65,11 @@ public class ShopController {
         return modelAndView;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Shop> create(@RequestBody Shop shop) {
-        iShopService.save(shop);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PostMapping("/create")
+//    public ResponseEntity<Shop> create(@RequestBody Shop shop) {
+//        iShopService.save(shop);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @GetMapping("/edit")
     public ModelAndView editForm() {
@@ -96,4 +93,6 @@ public class ShopController {
         iShopService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }

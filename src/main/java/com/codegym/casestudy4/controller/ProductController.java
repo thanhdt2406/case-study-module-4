@@ -3,9 +3,11 @@ package com.codegym.casestudy4.controller;
 import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Category;
 import com.codegym.casestudy4.model.Product;
+import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
+import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -36,10 +38,18 @@ public class ProductController {
     private ICategoryService iCategoryService;
 
     @Autowired
+    private IAppUserService iAppUserService;
+
+    @Autowired
+    private IShopService iShopService;
+
+    @Autowired
     private Environment env;
 
     @Autowired
     private IAppUserService appUserService;
+    @Autowired
+    private IShopService shopService;
 
     @ModelAttribute("currentUser")
     public AppUser currentUser(){
@@ -51,12 +61,29 @@ public class ProductController {
         return iCategoryService.findAll();
     }
 
+    @ModelAttribute("currentShop")
+    public Shop currentShop() {
+        Long id = iAppUserService.getUserLogin().getAppUserId();
+        return iShopService.findByUserID(id);
+    }
+
+
 //    @Value("${upload.path}")
 //    private String fileUpload;
 
     @GetMapping("/details/{id}")
     public ModelAndView showProductDetail(@PathVariable("id") Long id){
-        return new ModelAndView("product-details","product",productService.findById(id).get());
+        return new ModelAndView("user/product-details","product",productService.findById(id).get());
+    }
+
+    @GetMapping("/product-detail/{id}")
+    public ModelAndView productDetail_Shop(@PathVariable("id") Long proId){
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        Long id = appUserService.getUserLogin().getAppUserId();
+
+        modelAndView.addObject("product",productService.findById(proId).get());
+        modelAndView.addObject("currentShop",shopService.findByUserID(id));
+        return modelAndView;
     }
 
     @GetMapping("/detail/{id}")
@@ -78,13 +105,13 @@ public class ProductController {
 
     @GetMapping("/create")
     public ModelAndView showFormCreate(){
-        ModelAndView modelAndView = new ModelAndView("/shop/createForm");
-        modelAndView.addObject("shop/createForm", new Product());
+        ModelAndView modelAndView = new ModelAndView("shop/add-new-product");
+        modelAndView.addObject("products", new Product());
         return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView creatTask(@ModelAttribute Product product){
+    public ModelAndView creatNewProduct(@ModelAttribute Product product){
 //        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop().getName(), product.getCategory().getName());
         MultipartFile multipartFile = product.getProductImage();
         String fileName = multipartFile.getOriginalFilename();
@@ -94,11 +121,14 @@ public class ProductController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        product.setImage(fileName);
-        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
+        product.setImage(fileName);
 
-        productService.save(productDB);
-        ModelAndView modelAndView = new ModelAndView("/shop/createForm");
+//        product.setImage(fileName);
+//        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
+        product.setShop(currentShop());
+        product.setStatus(true);
+        productService.save(product);
+        ModelAndView modelAndView = new ModelAndView("shop/add-new-product");
         modelAndView.addObject("products", new Product());
         modelAndView.addObject("message", "ADD PRODUCT OK");
         return modelAndView;
@@ -106,8 +136,8 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     ModelAndView showEditForm(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("shop/editForm");
-        modelAndView.addObject("products",productService.findById(id));
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        modelAndView.addObject("product",productService.findById(id));
         return modelAndView;
     }
 
@@ -115,22 +145,24 @@ public class ProductController {
     public ModelAndView editProduct(@ModelAttribute Product product) {
         Product product1 = productService.findById(product.getProductId()).get();
         MultipartFile multipartFile = product.getProductImage();
-        String image = null;
+        String image = multipartFile.getOriginalFilename();
         if (image.isEmpty()) {
             image = product1.getImage();
         }else {
             image = multipartFile.getOriginalFilename();
         }
-        product1.setImage(image);
+        product.setImage(image);
+        product.setStatus(true);
+        product.setShop(currentShop());
         String fileUpload = env.getProperty("upload.path").toString();
         try {
             FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + image));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        productService.save(product1);
-        ModelAndView modelAndView = new ModelAndView("shop/editForm");
-        modelAndView.addObject("products", product);
+        productService.save(product);
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        modelAndView.addObject("product", product);
         modelAndView.addObject("message", "UPDATE OKKKKKK");
         return modelAndView;
     }
