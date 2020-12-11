@@ -31,7 +31,9 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public void delete(Long id) {
+        productRepository.deleteById(id);
     }
+
     @Override
     public Page<Product> findAll(Pageable pageable) {
         return productRepository.findAll(pageable);

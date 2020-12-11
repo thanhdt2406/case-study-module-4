@@ -25,7 +25,6 @@ public class SecController {
         return "/deny";
     }
 
-
     @GetMapping("/users")
     public String user() {
         return "user";

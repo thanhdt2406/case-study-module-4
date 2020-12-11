@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -34,7 +35,7 @@ public class Product {
 
     @Column(columnDefinition = "longtext")
     private String description;
-
+    @UpdateTimestamp
     @Column(columnDefinition = "datetime default NOW()")
     private Date createDate;
 
