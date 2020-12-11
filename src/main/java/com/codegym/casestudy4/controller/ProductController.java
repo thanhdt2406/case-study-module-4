@@ -6,6 +6,7 @@ import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
+import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -40,6 +41,8 @@ public class ProductController {
 
     @Autowired
     private IAppUserService appUserService;
+    @Autowired
+    private IShopService shopService;
 
     @ModelAttribute("currentUser")
     public AppUser currentUser(){
@@ -60,8 +63,13 @@ public class ProductController {
     }
 
     @GetMapping("/product-detail/{id}")
-    public ModelAndView productDetail_Shop(@PathVariable("id") Long id){
-        return new ModelAndView("shop/product-details-shop","product",productService.findById(id).get());
+    public ModelAndView productDetail_Shop(@PathVariable("id") Long proId){
+        ModelAndView modelAndView = new ModelAndView("shop/product-details-shop");
+        Long id = appUserService.getUserLogin().getAppUserId();
+
+        modelAndView.addObject("product",productService.findById(proId).get());
+        modelAndView.addObject("currentShop",shopService.findByUserID(id));
+        return modelAndView;
     }
 
     @GetMapping("/detail/{id}")
