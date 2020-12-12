@@ -14,6 +14,17 @@ values ('admin123', '123456', 'HaNoi', 'abc@example.com', 'Admin', '012456789', 
        ('dungvo', '123456', 'HaNoi', 'abc@example.com', 'Dung User', '012456789', 3),
        ('user123', '123456', 'HaNoi', 'abc@example.com', 'User user', '012456789', 3);
 
+insert into cart(cart_id,app_user_id)
+values (1,1),
+       (2,2),
+       (3,3),
+       (4,4),
+       (5,5),
+       (6,6),
+       (7,7),
+       (8,8);
+
+
 insert into category(name)
 values ('bags'),
        ('balls'),

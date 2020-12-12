@@ -41,6 +41,7 @@ public class AppUser {
     @Column(columnDefinition = "bit default true")
     private boolean status;
 
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private AppRole appRole;
