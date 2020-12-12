@@ -28,38 +28,6 @@
                         </div>
                     </div>
                     <div class="col-sm-7">
-                        <div class="product-information" id="edit-form" style="display: none"><!--sign up form-->
-                            <form method="post" th:object="${product}" action="/products/edit"
-                                  enctype="multipart/form-data">
-                                <input type="hidden" name="id" th:value="${product.getProductId()}"
-                                       th:field="*{productId}">
-                                <label for="">Name:</label>
-                                <input type="text" style="width: 200px" name="name" th:value="${product.getName()}"
-                                       th:field="*{name}"/><br>
-                                <span>
-                                    <label>Price:</label>
-									<input type="text" name="price" th:value="${product.getPrice()}" th:field="*{price}"
-                                           style="width: 150px">
-									<label>Quantity:</label>
-									<input type="number" name="quantity" th:value="${product.getQuantity()}"/>
-                                </span>
-                                <input type="file" name="productImage" th:text="${product.getImage()}"/>
-
-                                <br>
-                                <label for="category">Category:</label>
-                                <select name="category" id="category" th:field="*{category}">
-                                    <option th:each="cate:${category}" th:value="${cate.categoryId}"
-                                            th:text="${cate.name}"></option>
-                                </select>
-                                <br>
-                                <labbel>Description:</labbel>
-                                <textarea th:text="${product.getDescription()}" th:field="*{description}"></textarea>
-
-                                <br><br>
-                                <button type="submit" class="btn btn-fefault cart" onclick="editForm()">Save</button>
-                            </form>
-                        </div><!--/sign up form-->
-
                         <div class="product-information"><!--/product-information-->
                             <img src="images/product-details/new.jpg" class="newarrival" alt=""/>
                             <h2 th:text="${product.getName()}">Anne Klein Sleeveless Colorblock Scuba</h2>
