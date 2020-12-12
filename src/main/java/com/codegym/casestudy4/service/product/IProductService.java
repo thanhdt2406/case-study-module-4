@@ -22,6 +22,7 @@ public interface IProductService extends IGeneralService<Product> {
 
     Iterable<Product> findAllByCategory(Category category);
 
+    Iterable<Product> findAllByPriceBetween(Long min, Long max);
     Iterable<Product> findAllByPriceDesc();
 
     Iterable<Product> findAllByPriceAsc();

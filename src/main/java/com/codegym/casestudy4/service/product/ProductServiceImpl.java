@@ -88,6 +88,11 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public Iterable<Product> findAllByPriceBetween(Long min, Long max) {
+        return productRepository.findAllByPriceBetween(min,max);
+    }
+
+    @Override
     public Iterable<Product> findAllByPriceDesc() {
         return productRepository.findAllByOrderByPriceDesc();
     }
