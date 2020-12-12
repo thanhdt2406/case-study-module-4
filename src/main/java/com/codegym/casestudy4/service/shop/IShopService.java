@@ -1,5 +1,6 @@
 package com.codegym.casestudy4.service.shop;
 
+import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.service.IGeneralService;
 import org.springframework.data.domain.Page;
@@ -11,4 +12,6 @@ public interface IShopService extends IGeneralService<Shop> {
     void changeShopStatus(Long id);
 
     Page<Shop> findShopAvailable(Pageable pageable,boolean isAvailable);
+
+
 }

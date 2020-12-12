@@ -7,9 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
-
 @Repository
 public interface IProductRepository extends PagingAndSortingRepository<Product,Long> {
     Iterable<Product> findTop5ByOrderByRatingDesc();
@@ -24,4 +21,6 @@ public interface IProductRepository extends PagingAndSortingRepository<Product,L
     Page<Product> findAllByName(String name, Pageable pageable);
 
     Iterable<Product> findAllByCategory(Category category);
+
+    Iterable<Product> findAllByPriceBetween(Long min, Long max);
 }

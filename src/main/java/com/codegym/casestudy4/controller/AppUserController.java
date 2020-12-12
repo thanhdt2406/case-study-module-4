@@ -43,7 +43,11 @@ public class AppUserController {
         Optional<Category> category = categoryService.findCategoryByName(categoryName);
         Iterable<Product> allProductByCategory = productService.findAllByCategory(category.get());
         return new ResponseEntity<>(allProductByCategory, HttpStatus.OK);
+    }
 
-
+    @GetMapping("/price")
+    public ResponseEntity<Iterable<Product>> getAllProByPrice(@RequestParam(value = "min",required = false) Long min,@RequestParam(value = "max",required = false) Long max){
+        Iterable<Product> allProductByPrice = productService.findAllByPriceBetween(min,max);
+        return new ResponseEntity<>(allProductByPrice,HttpStatus.OK);
     }
 }

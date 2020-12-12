@@ -60,5 +60,10 @@ public class ProductServiceImpl implements IProductService {
         return productRepository.findAllByCategory(category);
     }
 
+    @Override
+    public Iterable<Product> findAllByPriceBetween(Long min, Long max) {
+        return productRepository.findAllByPriceBetween(min,max);
+    }
+
 
 }
