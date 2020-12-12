@@ -32,6 +32,7 @@ public class ProductServiceImpl implements IProductService {
         Cart cart = cartService.findByAppUser_AppUserId(currentUser().getAppUserId());
         if (cart == null) {
             cart = new Cart(currentUser());
+            cartService.save(cart);
         }
         return cart;
     }
@@ -113,9 +114,6 @@ public class ProductServiceImpl implements IProductService {
         };
         return productList;
     }
-
-
-
 
     @Override
     public void addProductToCart(Long id) {
