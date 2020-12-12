@@ -64,6 +64,7 @@ public class ProductController {
     @ModelAttribute("currentShop")
     public Shop currentShop() {
         Long id = iAppUserService.getUserLogin().getAppUserId();
+
         return iShopService.findByUserID(id);
     }
 
@@ -71,9 +72,9 @@ public class ProductController {
 //    @Value("${upload.path}")
 //    private String fileUpload;
 
-    @GetMapping("/details/{id}")
+    @GetMapping("/detail/{id}")
     public ModelAndView showProductDetail(@PathVariable("id") Long id){
-        return new ModelAndView("user/product-details","product",productService.findById(id).get());
+        return new ModelAndView("customer/product-details","product",productService.findById(id).get());
     }
 
     @GetMapping("/product-detail/{id}")
@@ -86,10 +87,6 @@ public class ProductController {
         return modelAndView;
     }
 
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Product> getProductDetail(@PathVariable("id") Long id){
-        return new ResponseEntity<>(productService.findById(id).get(), HttpStatus.OK);
-    }
 // hoi quan giai thich lai phan paging
     @GetMapping("")
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("name") Optional<String> name){

@@ -241,7 +241,7 @@
                                     <div class="overlay-content">
                                         <h2 th:text="${pro.getPrice()}"></h2>
                                         <p th:text="${pro.getName()}"></p>
-                                        <a href="/customer/addItem" class="btn btn-default add-to-cart"><i
+                                        <a th:href="@{/products/detail/__${pro.getProductId()}__}" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Detail</a>
                                     </div>
                                 </div>

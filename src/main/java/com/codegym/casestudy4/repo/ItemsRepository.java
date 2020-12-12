@@ -12,5 +12,4 @@ public interface ItemsRepository extends CrudRepository<Items, Long> {
     Iterable<Items> getAllByCart(Cart cart);
     Items getByCartIsAndProductIs(Cart cart, Product product);
 
-
 }

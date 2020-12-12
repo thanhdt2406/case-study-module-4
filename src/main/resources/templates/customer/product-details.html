@@ -1,42 +1,78 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="/layout::head"></th:block>
+    <th:block th:replace="customer/cus_layout::head"></th:block>
     <title>Product Details | E-Shopper</title>
 </head><!--/head-->
-
-<body>
-<header th:replace="/layout::header"><!--header--></header><!--/header-->
+<script>
+    function img() {
+        let img = document.getElementsByTagName("img");
+        for (let i = 0; i < img.length; i++) {
+            let src = img[i].getAttribute("src");
+            img[i].setAttribute("src", "../../../" + src);
+        }
+    }
+</script>
+<body onload="img()">
+<th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
+<h1 th:text="${currentUser.getName()}"></h1>
 
 <section>
     <div class="container">
         <div class="row">
-            <div th:replace="/layout::left-sidebar"></div>
-
             <div class="col-sm-9 padding-right">
                 <div class="product-details"><!--product-details-->
                     <div class="col-sm-5">
                         <div class="view-product">
-                            <img src="images/product-details/1.jpg" alt=""/>
+                            <img th:src="'../../../'+${product.getImage()}" alt=""/>
                         </div>
                     </div>
                     <div class="col-sm-7">
+                        <div class="product-information" id="edit-form" style="display: none"><!--sign up form-->
+                            <form method="post" th:object="${product}" action="/products/edit"
+                                  enctype="multipart/form-data">
+                                <input type="hidden" name="id" th:value="${product.getProductId()}"
+                                       th:field="*{productId}">
+                                <label for="">Name:</label>
+                                <input type="text" style="width: 200px" name="name" th:value="${product.getName()}"
+                                       th:field="*{name}"/><br>
+                                <span>
+                                    <label>Price:</label>
+									<input type="text" name="price" th:value="${product.getPrice()}" th:field="*{price}"
+                                           style="width: 150px">
+									<label>Quantity:</label>
+									<input type="number" name="quantity" th:value="${product.getQuantity()}"/>
+                                </span>
+                                <input type="file" name="productImage" th:text="${product.getImage()}"/>
+
+                                <br>
+                                <label for="category">Category:</label>
+                                <select name="category" id="category" th:field="*{category}">
+                                    <option th:each="cate:${category}" th:value="${cate.categoryId}"
+                                            th:text="${cate.name}"></option>
+                                </select>
+                                <br>
+                                <labbel>Description:</labbel>
+                                <textarea th:text="${product.getDescription()}" th:field="*{description}"></textarea>
+
+                                <br><br>
+                                <button type="submit" class="btn btn-fefault cart" onclick="editForm()">Save</button>
+                            </form>
+                        </div><!--/sign up form-->
+
                         <div class="product-information"><!--/product-information-->
                             <img src="images/product-details/new.jpg" class="newarrival" alt=""/>
-                            <h2>Anne Klein Sleeveless Colorblock Scuba</h2>
-                            <p>Web ID: 1089772</p>
+                            <h2 th:text="${product.getName()}">Anne Klein Sleeveless Colorblock Scuba</h2>
+                            <p th:text="${product.getShop().getName()}"></p>
                             <img src="images/product-details/rating.png" alt=""/>
                             <span>
-									<span>US $59</span>
+									<span th:text="${product.getPrice()}">US </span>
 									<label>Quantity:</label>
-									<input type="text" value="3"/>
-									<button type="button" class="btn btn-fefault cart">
-										<i class="fa fa-shopping-cart"></i>
-										Add to cart
-									</button>
-								</span>
-                            <p><b>Quantity</b> Numberrrrrrrrrrrr</p>
-                            <a href="#"><img src="images/product-details/share.png" class="share img-responsive" alt=""/></a>
+									<input type="text" th:value="${product.getQuantity()}"/>
+                            </span>
+                            <hr>
+                            <button type="button" class="btn btn-fefault cart">ADD TO CART
+                            </button>
                         </div><!--/product-information-->
                     </div>
                 </div><!--/product-details-->
@@ -51,136 +87,14 @@
                         <div class="tab-pane fade active in" id="reviews">
                             <div class="col-sm-12">
                                 <ul>
-                                    <li><a href=""><i class="fa fa-user"></i>Shop name</a></li>
-                                    <li><i class="fa fa-clock-o"></i>Create Date</li>
+                                    <li th:text="${product.getCreateDate()}"><i class="fa fa-clock-o"></i>Create Date</li>
                                 </ul>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure
-                                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur.</p>
-                                <p><b>Write Your Review</b></p>
-
-                                <form action="#">
-										<span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
-										</span>
-                                    <textarea name=""></textarea>
-                                    <b>Rating: </b> <img src="images/product-details/rating.png" alt=""/>
-                                    <button type="button" class="btn btn-default pull-right">
-                                        Submit
-                                    </button>
-                                </form>
+                                <p th:text="${product.getDescription()}"></p>
                             </div>
                         </div>
 
                     </div>
                 </div><!--/category-tab-->
-
-                <div class="recommended_items"><!--recommended_items-->
-                    <h2 class="title text-center">recommended items</h2>
-
-                    <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend1.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend2.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend3.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend1.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend2.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="product-image-wrapper">
-                                        <div class="single-products">
-                                            <div class="productinfo text-center">
-                                                <img src="images/home/recommend3.jpg" alt=""/>
-                                                <h2>$56</h2>
-                                                <p>Easy Polo Black Edition</p>
-                                                <button type="button" class="btn btn-default add-to-cart"><i
-                                                        class="fa fa-shopping-cart"></i>Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                        </a>
-                        <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                        </a>
-                    </div>
-                </div><!--/recommended_items-->
-
             </div>
         </div>
     </div>
