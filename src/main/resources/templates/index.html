@@ -182,10 +182,10 @@
                         <h2>Sort</h2>
                         <div class="brands-name">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">Price Asc</a></li>
-                                <li><a href="#">Price Desc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="priceasc">Price Asc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="pricedesc">Price Desc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="stars">Stars</a></li>
                                 <li><a href="#">Views</a></li>
-                                <li><a href="#">Rating</a></li>
                             </ul>
                         </div>
                     </div><!--/brands_products-->
@@ -242,6 +242,26 @@
     </div>
 </section>
 <script>
+    function sort(e) {
+        let sortPro = e.getAttribute("name");
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: `/sort?name=${sortPro}`,
+            success: function (data) {
+                let content="";
+                for (let i=0;i<data.length;i++){
+                    content+=getProduct(data[i]);
+                }
+                document.getElementById('product').innerHTML=content;
+            }
+        })
+        event.preventDefault();
+    }
+
     function loadItems(e) {
         let category = e.getAttribute("name");
 // goi ajax
@@ -258,8 +278,6 @@
               let content="";
               for (let i=0;i<data.length;i++){
                   content+=getProduct(data[i]);
-
-
               }
                 document.getElementById('product').innerHTML=content;
             }
@@ -269,22 +287,22 @@
         event.preventDefault();
     }
 
-    function successHandler() {
-        $.ajax({
-            type: "GET",
-//tên API
-            url: "/categoryname",
-//xử lý khi thành công
-            success: function (data) {
-// hien thi danh sach o day
-                let content = "";
-                for (let i = 0; i < data.length; i++) {
-                    content += getProduct(data[i]);
-                }
-                document.getElementById('classList').innerHTML = content;
-            }
-        });
-    }
+//     function successHandler() {
+//         $.ajax({
+//             type: "GET",
+// //tên API
+//             url: "/categoryname",
+// //xử lý khi thành công
+//             success: function (data) {
+// // hien thi danh sach o day
+//                 let content = "";
+//                 for (let i = 0; i < data.length; i++) {
+//                     content += getProduct(data[i]);
+//                 }
+//                 document.getElementById('classList').innerHTML = content;
+//             }
+//         });
+//     }
 
     function getProduct(pro) {
         return `  <div class="col-sm-4">

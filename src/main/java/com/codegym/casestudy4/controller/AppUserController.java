@@ -43,7 +43,24 @@ public class AppUserController {
         Optional<Category> category = categoryService.findCategoryByName(categoryName);
         Iterable<Product> allProductByCategory = productService.findAllByCategory(category.get());
         return new ResponseEntity<>(allProductByCategory, HttpStatus.OK);
-
-
     }
+
+    @GetMapping("/sort")
+    public ResponseEntity<Iterable<Product>> getAllProSort(@RequestParam(value = "name",required = true) String sortName) {
+        Iterable<Product> responseEntity = null;
+        switch (sortName){
+            case "stars":
+                responseEntity = productService.findAllProductOrderByStarsDesc();
+                break;
+            case "pricedesc":
+                responseEntity = productService.findAllByPriceDesc();
+                break;
+            case "priceasc":
+                responseEntity = productService.findAllByPriceAsc();
+                break;
+        }
+        return new ResponseEntity<>(responseEntity, HttpStatus.OK);
+    }
+
+
 }

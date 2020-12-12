@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class Items {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
 
     @ManyToOne
