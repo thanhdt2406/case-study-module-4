@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ItemsService extends IGeneralService<Items> {
     List<Items> getAllItemsByCart(Cart cart);
+
+    void deleteByProductId(Long id);
 }

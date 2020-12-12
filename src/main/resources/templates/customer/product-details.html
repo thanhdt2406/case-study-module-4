@@ -4,6 +4,7 @@
     <th:block th:replace="customer/cus_layout::head"></th:block>
     <title>Product Details | E-Shopper</title>
 </head><!--/head-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>
     function img() {
         let img = document.getElementsByTagName("img");
@@ -12,6 +13,38 @@
             img[i].setAttribute("src", "../../../" + src);
         }
     }
+</script>
+<script type="text/javascript">
+    function addProductToCartD(e){
+        let idProduct = e.getAttribute("href");
+        $.ajax({
+            type: "GET",
+            url: "/customer/addProductToCart/" + idProduct,
+            success: function (data) {
+                let length = data.length;
+                document.getElementById("number").innerHTML = length;
+
+
+
+            }
+        })
+    }
+    // let myVar = setInterval(reloadProduct,2000);
+    // function reloadProduct() {
+    //     let idProduct =  $('#addtocart').attr('href');
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/customer/addProductToCart/" + idProduct,
+    //         success: function (data) {
+    //             let length = data.length;
+    //             document.getElementById("number").innerHTML = length;
+    //
+    //
+    //
+    //         }
+    //     })
+    // }
+
 </script>
 <body onload="img()">
 <th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
@@ -68,10 +101,10 @@
                             <span>
 									<span th:text="${product.getPrice()}">US </span>
 									<label>Quantity:</label>
-									<input type="text" th:value="${product.getQuantity()}"/>
+									<input type="text" th:value="${product.getQuantity()}" readonly/>
                             </span>
                             <hr>
-                            <button type="button" class="btn btn-fefault cart">ADD TO CART
+                            <button type="button" class="btn btn-fefault cart" id="addtocart" th:href="${product.productId}" onclick="addProductToCartD(this)">ADD TO CART
                             </button>
                         </div><!--/product-information-->
                     </div>

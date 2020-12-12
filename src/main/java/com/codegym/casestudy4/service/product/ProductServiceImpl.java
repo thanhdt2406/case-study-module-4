@@ -135,6 +135,21 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public void minusProductQuantity(Long id) {
+        Product product = productRepository.findById(id).get();
+        Items currentItem = itemsRepository.getByCartIsAndProductIs(currentCart(), product);
+        int quantity = currentItem.getQuantity();
+        Long itemId = currentItem.getItemId();
+        if (quantity==1) {
+            itemsRepository.deleteById(itemId);
+        }else {
+            quantity--;
+            currentItem.setQuantity(quantity);
+            itemsRepository.save(currentItem);
+        }
+    }
+
+    @Override
     public Iterable<Product> findAllByPriceAsc() {
         return productRepository.findAllByOrderByPriceAsc();
     }

@@ -8,6 +8,7 @@ import com.codegym.casestudy4.service.cart.ICartService;
 import com.codegym.casestudy4.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,12 @@ public class ItemsServiceImpl implements ItemsService {
     @Override
     public void delete(Long id) {
         itemsRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByProductId(Long id) {
+        itemsRepository.deleteByProduct_ProductId(id);
     }
 
     @Override
