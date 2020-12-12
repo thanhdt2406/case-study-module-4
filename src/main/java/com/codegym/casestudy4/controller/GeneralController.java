@@ -17,31 +17,5 @@ import java.util.List;
 @Controller
 @RequestMapping
 public class GeneralController {
-    @Autowired
-    private IAppRoleService appRoleService;
 
-    @Autowired
-    private IAppUserService appUserService;
-
-    @PostMapping("/signup")
-    public ModelAndView createNewUser(@Valid @ModelAttribute AppUser appUser, BindingResult bindingResult) {
-        if(isExistUsername(appUser.getUsername())|| bindingResult.hasErrors()){
-            return new ModelAndView("redirect:/login?signupfailed");
-        } else {
-            appUser.setAppRole(appRoleService.findByName("ROLE_USER"));
-            appUser.setStatus(true);
-            appUserService.save(appUser);
-            return new ModelAndView("redirect:/login?signupsuccess");
-        }
-    }
-
-    private boolean isExistUsername(String username){
-        List<AppUser> appUserList = (List<AppUser>) appUserService.findAll();
-        for (AppUser appUser : appUserList) {
-            if (appUser.getUsername().equals(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

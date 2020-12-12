@@ -28,10 +28,12 @@ public interface IProductService extends IGeneralService<Product> {
     Iterable<Product> findAllByPriceAsc();
 
     Iterable<Product> findAllProductOrderByStarsDesc();
-//    DUNG
+
     List<Product> findAllProductByCart(Cart cart);
 
     void addProductToCart(Long id);
+
+    void minusProductQuantity(Long id);
 
 
 

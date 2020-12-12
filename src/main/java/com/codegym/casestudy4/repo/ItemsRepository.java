@@ -11,5 +11,5 @@ import java.nio.file.LinkOption;
 public interface ItemsRepository extends CrudRepository<Items, Long> {
     Iterable<Items> getAllByCart(Cart cart);
     Items getByCartIsAndProductIs(Cart cart, Product product);
-
+    void deleteByProduct_ProductId(Long id);
 }

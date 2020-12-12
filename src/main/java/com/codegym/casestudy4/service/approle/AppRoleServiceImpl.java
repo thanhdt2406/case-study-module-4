@@ -1,7 +1,7 @@
 package com.codegym.casestudy4.service.approle;
 
 import com.codegym.casestudy4.model.AppRole;
-import com.codegym.casestudy4.repo.IAppRoleRepo;
+import com.codegym.casestudy4.repo.IAppRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class AppRoleServiceImpl implements IAppRoleService{
     @Autowired
-    private IAppRoleRepo appRoleRepo;
+    private IAppRoleRepository appRoleRepository;
 
     @Override
     public Iterable<AppRole> findAll() {
@@ -34,6 +34,6 @@ public class AppRoleServiceImpl implements IAppRoleService{
 
     @Override
     public AppRole findByName(String name) {
-        return appRoleRepo.findByName(name).get();
+        return appRoleRepository.findByName(name).get();
     }
 }

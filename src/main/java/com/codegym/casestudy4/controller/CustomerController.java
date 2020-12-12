@@ -54,8 +54,6 @@ public class CustomerController {
     @GetMapping("")
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("searchName") Optional<String> name){
         Page<Product> productsList;
-        productService.addProductToCart(100L);
-        List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         if (name.isPresent()){
             productsList = productService.findAllByNameContaining(name.get(), pageable);
         }else {
@@ -66,7 +64,9 @@ public class CustomerController {
 
     @GetMapping("/cart")
     public ModelAndView showCart(){
+        List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         ModelAndView modelAndView = new ModelAndView("customer/cart");
+        modelAndView.addObject("allItems", allItemsByCart);
         return modelAndView;
     }
 
@@ -76,9 +76,22 @@ public class CustomerController {
         return modelAndView;
     }
 
-    @GetMapping("/addProductToCart")
+    @GetMapping("/addProductToCart/{id}")
     public ResponseEntity<List<Items>> addProductToCart(@PathVariable Long id) {
         productService.addProductToCart(id);
+        List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
+        return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+    }
+    @GetMapping("/minusProduct/{id}")
+    public ResponseEntity<List<Items>> minusProductToItem(@PathVariable Long id) {
+        productService.minusProductQuantity(id);
+        List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
+        return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cart/delete/{id}")
+    public ResponseEntity<List<Items>> deleteItem(@PathVariable Long id) {
+            itemsService.deleteByProductId(id);
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
     }

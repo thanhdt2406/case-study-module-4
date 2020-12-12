@@ -32,6 +32,7 @@ public class ProductServiceImpl implements IProductService {
         Cart cart = cartService.findByAppUser_AppUserId(currentUser().getAppUserId());
         if (cart == null) {
             cart = new Cart(currentUser());
+            cartService.save(cart);
         }
         return cart;
     }
@@ -114,9 +115,6 @@ public class ProductServiceImpl implements IProductService {
         return productList;
     }
 
-
-
-
     @Override
     public void addProductToCart(Long id) {
         Product product = productRepository.findById(id).get();
@@ -137,6 +135,21 @@ public class ProductServiceImpl implements IProductService {
             itemsRepository.save(newItem);
         }
 
+    }
+
+    @Override
+    public void minusProductQuantity(Long id) {
+        Product product = productRepository.findById(id).get();
+        Items currentItem = itemsRepository.getByCartIsAndProductIs(currentCart(), product);
+        int quantity = currentItem.getQuantity();
+        Long itemId = currentItem.getItemId();
+        if (quantity==1) {
+            itemsRepository.deleteById(itemId);
+        }else {
+            quantity--;
+            currentItem.setQuantity(quantity);
+            itemsRepository.save(currentItem);
+        }
     }
 
     @Override
