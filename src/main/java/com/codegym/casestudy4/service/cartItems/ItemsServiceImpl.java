@@ -9,6 +9,8 @@ import com.codegym.casestudy4.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ItemsServiceImpl implements ItemsService {
@@ -38,4 +40,14 @@ public class ItemsServiceImpl implements ItemsService {
         itemsRepository.deleteById(id);
     }
 
+    @Override
+    public List<Items> getAllItemsByCart(Cart cart) {
+        Iterable<Items> allItemsByCart = itemsRepository.getAllByCart(cart);
+        List<Items> items = new ArrayList<>();
+        for (Items item: allItemsByCart
+             ) {
+            items.add(item);
+        }
+        return items;
+    }
 }
