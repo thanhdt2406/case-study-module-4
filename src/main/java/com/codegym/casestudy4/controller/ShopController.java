@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,9 +38,10 @@ public class ShopController {
 
     @ModelAttribute("currentShop")
     public Shop currentShop() {
-        Long id = iAppUserService.getUserLogin().getAppUserId();
-        return iShopService.findByUserID(id);
+        Long userId = iAppUserService.getUserLogin().getAppUserId();
+        return iShopService.findByUserID(userId);
     }
+
     @ModelAttribute("currentUser")
     public AppUser currentUser() {
         return iAppUserService.getUserLogin();
@@ -47,6 +49,9 @@ public class ShopController {
 
     @GetMapping
     public ModelAndView index() {
+        if(currentShop()==null){
+            return new ModelAndView("redirect:/shops/createShop");
+        }
         ModelAndView modelAttribute = new ModelAndView("shop/shop-index");
         modelAttribute.addObject("products", productService.findAllProductAvailable(currentShop().getShopId()));
         return modelAttribute;
@@ -55,14 +60,6 @@ public class ShopController {
     @GetMapping("/")
     public ResponseEntity<Iterable<Shop>> getAll() {
         return new ResponseEntity<>(iShopService.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/list")
-    public ModelAndView showShopList() {
-        ModelAndView modelAndView = new ModelAndView("/shop/list");
-        Iterable<Shop> shops = iShopService.findAll();
-        modelAndView.addObject("shopList", shops);
-        return modelAndView;
     }
 
 //    @PostMapping("/create")
@@ -74,7 +71,7 @@ public class ShopController {
     @GetMapping("/edit")
     public ModelAndView editForm() {
         ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
-        Shop shop =iShopService.findById(currentShop().getShopId()).get();
+        Shop shop = iShopService.findById(currentShop().getShopId()).get();
         modelAndView.addObject("shop", shop);
         return modelAndView;
     }
@@ -83,7 +80,7 @@ public class ShopController {
     public ModelAndView edit(@Valid @ModelAttribute Shop shop) {
         iShopService.save(shop);
         ModelAndView modelAndView = new ModelAndView("shop/shop-profile");
-        modelAndView.addObject("shop",shop);
+        modelAndView.addObject("shop", shop);
         modelAndView.addObject("message", "UPDATE OK");
         return modelAndView;
     }
@@ -94,5 +91,19 @@ public class ShopController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/createShop")
+    public ModelAndView createShop(){
+        return new ModelAndView("shop/createShop","shop",new Shop());
+    }
 
+    @PostMapping("/createShop")
+    public ModelAndView createNewShop(@Valid @ModelAttribute("shops") Shop shop, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("redirect:/createShop?error");
+        }
+        shop.setAppUser(currentUser());
+        shop.setStatus(true);
+        iShopService.save(shop);
+        return new ModelAndView("redirect:/shops");
+    }
 }

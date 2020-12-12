@@ -54,8 +54,6 @@ public class CustomerController {
     @GetMapping("")
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("searchName") Optional<String> name){
         Page<Product> productsList;
-        productService.addProductToCart(100L);
-        List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         if (name.isPresent()){
             productsList = productService.findAllByNameContaining(name.get(), pageable);
         }else {
