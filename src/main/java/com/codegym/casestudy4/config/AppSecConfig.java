@@ -33,7 +33,7 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/shops/**").hasAnyRole("ADMIN", "SHOP")
                 .and()
-                .authorizeRequests().antMatchers("/user/**").hasAnyRole("ADMIN", "SHOP", "USER")
+                .authorizeRequests().antMatchers("/customer/**","/products/**").hasAnyRole("ADMIN", "SHOP", "USER")
                 .and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/login").successHandler(customSuccessHandler)
                 .and()

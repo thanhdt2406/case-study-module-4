@@ -4,109 +4,79 @@
     <th:block th:replace="/customer/cus_layout::head"></th:block>
 </head><!--/head-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript">
-    function img() {
-        let img = document.getElementsByTagName("img");
-        for (let i = 0; i < img.length; i++) {
-            let src = img[i].getAttribute("src");
-            img[i].setAttribute("src", "../" + src);
-        }
-    }
-
-    function deleteItem(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "DELETE",
-            url: "/customer/cart/delete/" + idProduct,
-            success: function (data) {
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-            }
-        });
-        event.preventDefault();
-    }
-
-    function addProductToCart(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "GET",
-            url: "/customer/addProductToCart/" + idProduct,
-            success: function (data) {
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-            }
-        });
-        event.preventDefault();
-    }
-
-    function minusProductToCart(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "GET",
-            url: "/customer/minusProduct/" + idProduct,
-            success: function (data) {
-                let test = data;
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-                console.log(data)
-
-            }
-        });
-        event.preventDefault();
-    }
-
-    function successHandler() {
-
-    }
-
-
-    function getItem(item) {
-        let content = `<tr>
-                    <td class="cart_product">
-                        <a href="/products/detail/${item.product.productId}"><img
-                                src="../${item.product.image}" width="50px" height="50px"
-                                alt=""></a>
-                    </td>
-                    <td class="cart_description">
-                        <p>${item.product.name}"</p>
-                    </td>
-                    <td class="cart_price">
-                        <p>${item.product.price}</p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href="${item.product.productId}"
-                               onclick="addProductToCart(this)">+</a>
-                            <input class="cart_quantity_input" type="text" name="quantity"
-                                   value="${item.quantity}" autocomplete="off" size="2" readonly>
-                            <a class="cart_quantity_down" href="${item.product.productId}"
-                               onclick="minusProductToCart(this)">-</a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price">${item.product.price * item.quantity}</p>
-                    </td>
-                    <td class="cart_delete">
-                        <a class="cart_quantity_delete" href="${item.product.productId}"
-                           onclick="deleteItem(this)"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>`
-        return content;
-    }
-
-</script>
 <body>
 <header id="header"><!--header-->
-    <th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="/customer"><img src="../../../images/home/logo.png" alt=""/></a>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                USA
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canada</a></li>
+                                <li><a href="#">UK</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                DOLLAR
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canadian Dollar</a></li>
+                                <li><a href="#">Pound</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#" th:text="${name}"><i class="fa fa-user"></i> Account</a></li>
+                            <!--								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>-->
+                            <!--								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>-->
+                            <li><a href="/customer/cart"><i class="fa fa-shopping-cart"></i> Cart <span id="number"></span></a></li>
+                            <li><a href="/logout"><i class="fa fa-lock"></i>Login/Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
 
     <div class="header-bottom"><!--header-bottom-->
         <div class="container">
@@ -141,6 +111,7 @@
                             </li>
                             <li><a href="404.html">404</a></li>
                             <li><a href="contact-us.html">Contact</a></li>
+                            <li><a href="/customer/ordered">Ordered</a></li>
                         </ul>
                     </div>
                 </div>
@@ -174,11 +145,11 @@
                     <td></td>
                 </tr>
                 </thead>
-                <tbody id="item">
-                <tr th:each="item: ${allItems}">
+                <tbody>
+                <tr th:each="item: ${orderDetailList}">
                     <td class="cart_product">
                         <a th:href="@{/products/detail/__${item.getProduct().getProductId()}__}"><img
-                                th:src="@{'../'+${item.getProduct().getImage()}}" width="50px" height="50px"
+                                th:src="@{'../../../'+${item.getProduct().getImage()}}" width="50px" height="50px"
                                 alt=""></a>
                     </td>
                     <td class="cart_description">
@@ -188,35 +159,17 @@
                         <p th:text="${item.getProduct().getPrice()}"></p>
                     </td>
                     <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" th:href="${item.product.productId}"
-                               onclick="addProductToCart(this)" th:text="'+'"></a>
-                            <input class="cart_quantity_input" type="text" name="quantity"
-                                   th:value="${item.getQuantity()}" autocomplete="off" size="2" readonly>
-                            <a class="cart_quantity_down" th:href="${item.product.productId}"
-                               onclick="minusProductToCart(this)" th:text="'-'"></a>
-                        </div>
+                        <p th:text="${item.getQuantity()}"></p>
                     </td>
                     <td class="cart_total">
                         <p class="cart_total_price" th:text="${item.getProduct().getPrice()*item.getQuantity()}"></p>
                     </td>
                     <td class="cart_delete">
-                        <a class="cart_quantity_delete" th:href="${item.getProduct().getProductId()}"
-                           onclick="deleteItem(this)"><i class="fa fa-times"></i></a>
+                        <a class="cart_quantity_delete" th:href="@{/products/rating/__${item.getProduct().getProductId()}__}">Rating</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <th:block th:if="${allItems.size()!=0}">
-                <form th:action="@{/customer/order}" method="post">
-                    <input type="hidden" th:value="${currentCart.getCartId()}" name="cartID">
-                    <button type="submit" class="btn btn-warning"
-                            style="margin-right: 75px;float: right;width: 165px;height: 50px;">Buy
-                    </button>
-                </form>
-            </th:block>
-
-
         </div>
 
     </div>

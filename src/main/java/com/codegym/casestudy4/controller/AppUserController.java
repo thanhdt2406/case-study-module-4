@@ -1,7 +1,9 @@
 package com.codegym.casestudy4.controller;
 
+import com.codegym.casestudy4.model.AppUser;
 import com.codegym.casestudy4.model.Category;
 import com.codegym.casestudy4.model.Product;
+import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping()
 public class AppUserController {
+    @Autowired
+    private IAppUserService appUserService;
 
     @Autowired
     private IProductService productService;
@@ -26,9 +30,16 @@ public class AppUserController {
     @Autowired
     private ICategoryService categoryService;
 
+    @ModelAttribute("currentUser")
+    public AppUser currentUser() {
+        return appUserService.getUserLogin();
+    }
 
     @GetMapping("")
     public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("searchName") Optional<String> name){
+        if(currentUser()!=null){
+            return new ModelAndView("redirect:/customer");
+        }
         Page<Product> productsList;
         if (name.isPresent()){
             productsList = productService.findAllByNameContaining(name.get(), pageable);

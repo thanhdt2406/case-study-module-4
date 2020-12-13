@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.file.LinkOption;
 @Repository
-public interface ItemsRepository extends CrudRepository<Items, Long> {
+public interface ICardItemsRepository extends CrudRepository<Items, Long> {
     Iterable<Items> getAllByCart(Cart cart);
+    Iterable<Items> getAllByCart_CartId(Long id);
     Items getByCartIsAndProductIs(Cart cart, Product product);
     void deleteByProduct_ProductId(Long id);
 }

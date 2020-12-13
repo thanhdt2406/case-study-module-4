@@ -45,24 +45,25 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="customer-index.html" class="active">Home</a></li>
+                            <li><a href="/customer" class="active">Home</a></li>
                             <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="customer/shop.html">Products</a></li>
-                                    <li><a href="customer/product-details.html">Product Details</a></li>
-                                    <li><a href="customer/checkout.html">Checkout</a></li>
-                                    <li><a href="customer/cart.html">Cart</a></li>
-                                    <li><a href="/logout">logout</a></li>
+                                    <li><a href="#">Products</a></li>
+                                    <li><a href="#">Product Details</a></li>
+                                    <li><a href="#">Checkout</a></li>
+                                    <li><a href="#">Cart</a></li>
+                                    <li><a href="#">logout</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="customer/blog.html">Blog List</a></li>
-                                    <li><a href="customer/blog-single.html">Blog Single</a></li>
+                                    <li><a href="#">Blog List</a></li>
+                                    <li><a href="#">Blog Single</a></li>
                                 </ul>
                             </li>
-                            <li><a href="customer/404.html">404</a></li>
-                            <li><a href="customer/contact-us.html">Contact</a></li>
+                            <li><a href="#">404</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="/customer/ordered">Ordered</a></li>
                         </ul>
                     </div>
                 </div>
@@ -201,10 +202,10 @@
                         <h2>Sort</h2>
                         <div class="brands-name">
                             <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#">Price Asc</a></li>
-                                <li><a href="#">Price Desc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="priceasc">Price Asc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="pricedesc">Price Desc</a></li>
+                                <li><a href="#" onclick="sort(this)" name="stars">Stars</a></li>
                                 <li><a href="#">Views</a></li>
-                                <li><a href="#">Rating</a></li>
                             </ul>
                         </div>
                     </div><!--/brands_products-->
@@ -212,9 +213,12 @@
                     <div class="price-range"><!--price-range-->
                         <h2>Price Range</h2>
                         <div class="well text-center">
-                            <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600"
-                                   data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br/>
-                            <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+                            <form action="#">
+                                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100000000"
+                                       data-slider-step="1000000" data-slider-value="[0,2000000]" id="sl2"><br/>
+                                <b class="pull-left">0</b> <b class="pull-right">100.000.000</b>
+                                <button type="submit" class="btn btn-warning" onclick="searchByPrice()">Search</button>
+                            </form>
                         </div>
                     </div><!--/price-range-->
 
@@ -234,8 +238,7 @@
                                     <img th:src="'../'+ ${pro.getImage()}" alt="" width="300px" height="300px"/>
                                     <h2 th:text="${pro.getPrice()}"></h2>
                                     <p th:text="${pro.getName()}"></p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
+                                    <a th:href="@{/products/detail/__${pro.getProductId()}__}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Detail</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
@@ -261,73 +264,91 @@
     </div>
 </section>
 <script>
-    function loadItems(e) {
-        let category = e.getAttribute("name");
-// goi ajax
+    function searchByPrice(){
+        let array = $('#sl2').val().split(',');
+        let min = array[0];
+        let max = array[1];
+        $.ajax({
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
+            url: `/price?min=${min}&&max=${max}`,
+            success: function (data) {
+                let content="";
+                for (let i=0;i<data.length;i++){
+                    content+=getProduct(data[i]);
+
+
+                }
+                document.getElementById('product').innerHTML=content;
+            }
+        })
+        event.preventDefault();
+    }
+
+    function sort(e) {
+        let sortPro = e.getAttribute("name");
         $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             type: "GET",
-//tên API
+            url: `/sort?name=${sortPro}`,
+            success: function (data) {
+                let content="";
+                for (let i=0;i<data.length;i++){
+                    content+=getProduct(data[i]);
+                }
+                document.getElementById('product').innerHTML=content;
+            }
+        })
+        event.preventDefault();
+    }
+
+    function loadItems(e) {
+        let category = e.getAttribute("name");
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "GET",
             url: `/categoryname?name=${category}`,
-//xử lý khi thành công
             success: function (data) {
               let content="";
               for (let i=0;i<data.length;i++){
                   content+=getProduct(data[i]);
-
-
               }
                 document.getElementById('product').innerHTML=content;
             }
-
         })
-//chặn sự kiện mặc định của thẻ
         event.preventDefault();
     }
 
-    function successHandler() {
-        $.ajax({
-            type: "GET",
-//tên API
-            url: "/categoryname",
-//xử lý khi thành công
-            success: function (data) {
-// hien thi danh sach o day
-                let content = "";
-                for (let i = 0; i < data.length; i++) {
-                    content += getProduct(data[i]);
-                }
-                document.getElementById('classList').innerHTML = content;
-            }
-        });
-    }
-
     function getProduct(pro) {
-        return `  <div class="col-sm-4">
+        return `<div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center" >
                                     <img src="../${pro.image}" alt="" width="300px" height="300px"/>
                                     <h2 >${pro.price}</h2>
                                     <p >${pro.name}</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to cart</a>
+                                    <a href="/products/detail/${pro.productId}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Detail</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
                                         <h2>${pro.price}</h2>
                                         <p >${pro.name}</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <a href="/products/detail/${pro.productId}" class="btn btn-default add-to-cart"><i
+                                                class="fa fa-shopping-cart"></i>Detail</a>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>`
+                    </div>`;
     }
 </script>
 

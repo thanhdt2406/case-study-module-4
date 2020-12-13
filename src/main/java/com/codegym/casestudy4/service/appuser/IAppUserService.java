@@ -14,4 +14,6 @@ public interface IAppUserService extends IGeneralService<AppUser> {
 
     Page<AppUser> findAppUserAvailable(Pageable pageable, String roleName, boolean isAvailable);
 
+    void changeAppUserRole(String roleName,Long id);
+
 }

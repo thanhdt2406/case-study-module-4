@@ -35,6 +35,7 @@ public interface IProductService extends IGeneralService<Product> {
 
     void minusProductQuantity(Long id);
 
+    void minusProductByProductId(int amount, Long id);
 
-
+    void addViewByProductId(Long id);
 }
