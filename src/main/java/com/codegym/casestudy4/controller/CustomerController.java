@@ -5,6 +5,8 @@ import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.cart.ICartService;
 import com.codegym.casestudy4.service.cartItems.ItemsService;
 import com.codegym.casestudy4.service.category.ICategoryService;
+import com.codegym.casestudy4.service.order.IOrderedService;
+import com.codegym.casestudy4.service.orderDetail.IOrderDetailService;
 import com.codegym.casestudy4.service.product.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,12 @@ public class CustomerController {
     @Autowired
     private IAppUserService userService;
 
+    @Autowired
+    private IOrderedService orderedService;
+
+    @Autowired
+    private IOrderDetailService orderDetailService;
+
     @ModelAttribute("currentUser")
     public AppUser currentUser() {
         return userService.getUserLogin();
@@ -47,6 +55,7 @@ public class CustomerController {
         Cart cart = cartService.findByAppUser_AppUserId(currentUser().getAppUserId());
         if(cart == null){
             cart = new Cart(currentUser());
+            cartService.save(cart);
         }
         return cart;
     }
@@ -94,5 +103,36 @@ public class CustomerController {
             itemsService.deleteByProductId(id);
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+    }
+
+//    private void createNewOrder(){
+//        Ordered ordered = new Ordered(currentUser());
+//        orderedService.save(ordered);
+//    }
+
+    @PostMapping("/order")
+    public ModelAndView order(@RequestParam("cartID") Long id){
+        Ordered ordered = new Ordered(currentUser());
+        orderedService.save(ordered);
+        List<Items> items = itemsService.getAllItemsByCartId(id);
+        for(Items item : items){
+            OrderDetail orderDetail = new OrderDetail(item.getQuantity(),ordered,item.getProduct());
+            orderDetailService.save(orderDetail);
+            itemsService.delete(item.getItemId());
+        }
+        cartService.delete(id);
+        return new ModelAndView("redirect:/customer/ordered");
+    }
+
+    @GetMapping("/ordered")
+    public ModelAndView showOrder(){
+        List<Ordered> orderedList = (List<Ordered>) orderedService.findAllByAppUser(currentUser());
+        return new ModelAndView("customer/ordered","orderedList",orderedList);
+    }
+
+    @GetMapping("/order/detail/{id}")
+    public ModelAndView showDetailOrder(@PathVariable("id") Long id){
+        Iterable<OrderDetail> orderDetailList = orderDetailService.findAllByOrdered(id);
+        return new ModelAndView("/customer/order-detail","orderDetailList",orderDetailList);
     }
 }

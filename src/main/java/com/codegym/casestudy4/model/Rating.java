@@ -23,7 +23,7 @@ public class Rating {
 
     @Min(0)
     @Max(5)
-    private int stars;
+    private double stars;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -39,5 +39,4 @@ public class Rating {
         this.product = product;
         this.appUser = appUser;
     }
-
 }

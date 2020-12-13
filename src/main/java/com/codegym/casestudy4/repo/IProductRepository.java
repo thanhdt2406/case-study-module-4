@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface IProductRepository extends PagingAndSortingRepository<Product,Long> {
-    Iterable<Product> findTop5ByOrderByRatingDesc();
-
     @Override
     Page<Product> findAll(Pageable pageable);
 

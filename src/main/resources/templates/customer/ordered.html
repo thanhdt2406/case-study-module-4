@@ -4,106 +4,6 @@
     <th:block th:replace="/customer/cus_layout::head"></th:block>
 </head><!--/head-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript">
-    function img() {
-        let img = document.getElementsByTagName("img");
-        for (let i = 0; i < img.length; i++) {
-            let src = img[i].getAttribute("src");
-            img[i].setAttribute("src", "../" + src);
-        }
-    }
-
-    function deleteItem(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "DELETE",
-            url: "/customer/cart/delete/" + idProduct,
-            success: function (data) {
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-            }
-        });
-        event.preventDefault();
-    }
-
-    function addProductToCart(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "GET",
-            url: "/customer/addProductToCart/" + idProduct,
-            success: function (data) {
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-            }
-        });
-        event.preventDefault();
-    }
-
-    function minusProductToCart(e) {
-        let idProduct = e.getAttribute("href");
-        $.ajax({
-            type: "GET",
-            url: "/customer/minusProduct/" + idProduct,
-            success: function (data) {
-                let test = data;
-                let content = '';
-                for (let i = 0; i < data.length; i++) {
-                    content += getItem(data[i]);
-                }
-                document.getElementById("item").innerHTML = content;
-                console.log(data)
-
-            }
-        });
-        event.preventDefault();
-    }
-
-    function successHandler() {
-
-    }
-
-
-    function getItem(item) {
-        let content = `<tr>
-                    <td class="cart_product">
-                        <a href="/products/detail/${item.product.productId}"><img
-                                src="../${item.product.image}" width="50px" height="50px"
-                                alt=""></a>
-                    </td>
-                    <td class="cart_description">
-                        <p>${item.product.name}"</p>
-                    </td>
-                    <td class="cart_price">
-                        <p>${item.product.price}</p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" href="${item.product.productId}"
-                               onclick="addProductToCart(this)">+</a>
-                            <input class="cart_quantity_input" type="text" name="quantity"
-                                   value="${item.quantity}" autocomplete="off" size="2" readonly>
-                            <a class="cart_quantity_down" href="${item.product.productId}"
-                               onclick="minusProductToCart(this)">-</a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price">${item.product.price * item.quantity}</p>
-                    </td>
-                    <td class="cart_delete">
-                        <a class="cart_quantity_delete" href="${item.product.productId}"
-                           onclick="deleteItem(this)"><i class="fa fa-times"></i></a>
-                    </td>
-                </tr>`
-        return content;
-    }
-
-</script>
 <body>
 <header id="header"><!--header-->
     <th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
@@ -166,61 +66,28 @@
             <table class="table table-condensed">
                 <thead>
                 <tr class="cart_menu">
-                    <td class="image">Product</td>
-                    <td class="description">Name</td>
-                    <td class="price">Price</td>
-                    <td class="quantity">Quantity</td>
-                    <td class="total">Total</td>
+                    <td class="image">Order Id</td>
+                    <td class="description">Date</td>
                     <td></td>
                 </tr>
                 </thead>
-                <tbody id="item">
-                <tr th:each="item: ${allItems}">
+                <tbody>
+                <tr th:each="order: ${orderedList}">
                     <td class="cart_product">
-                        <a th:href="@{/products/detail/__${item.getProduct().getProductId()}__}"><img
-                                th:src="@{'../'+${item.getProduct().getImage()}}" width="50px" height="50px"
-                                alt=""></a>
+                        <p th:text="${order.getOrderId()}"></p>
                     </td>
                     <td class="cart_description">
-                        <p th:text="${item.getProduct().getName()}"></p>
-                    </td>
-                    <td class="cart_price">
-                        <p th:text="${item.getProduct().getPrice()}"></p>
-                    </td>
-                    <td class="cart_quantity">
-                        <div class="cart_quantity_button">
-                            <a class="cart_quantity_up" th:href="${item.product.productId}"
-                               onclick="addProductToCart(this)" th:text="'+'"></a>
-                            <input class="cart_quantity_input" type="text" name="quantity"
-                                   th:value="${item.getQuantity()}" autocomplete="off" size="2" readonly>
-                            <a class="cart_quantity_down" th:href="${item.product.productId}"
-                               onclick="minusProductToCart(this)" th:text="'-'"></a>
-                        </div>
-                    </td>
-                    <td class="cart_total">
-                        <p class="cart_total_price" th:text="${item.getProduct().getPrice()*item.getQuantity()}"></p>
+                        <p th:text="${order.getOrderDate()}"></p>
                     </td>
                     <td class="cart_delete">
-                        <a class="cart_quantity_delete" th:href="${item.getProduct().getProductId()}"
-                           onclick="deleteItem(this)"><i class="fa fa-times"></i></a>
+                        <a class="cart_quantity_delete" th:href="@{/customer/order/detail/__${order.getOrderId()}__}">Detail</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <th:block th:if="${allItems.size()!=0}">
-                <form th:action="@{/customer/order}" method="post">
-                    <input type="hidden" th:value="${currentCart.getCartId()}" name="cartID">
-                    <button type="submit" class="btn btn-warning"
-                            style="margin-right: 75px;float: right;width: 165px;height: 50px;">Buy
-                    </button>
-                </form>
-            </th:block>
-
-
         </div>
-
     </div>
-</section> <!--/#cart_items-->
+</section>
 
 <footer id="footer"><!--Footer-->
     <div class="footer-top">

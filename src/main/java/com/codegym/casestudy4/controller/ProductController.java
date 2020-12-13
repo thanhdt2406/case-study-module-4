@@ -1,27 +1,21 @@
 package com.codegym.casestudy4.controller;
 
-import com.codegym.casestudy4.model.AppUser;
-import com.codegym.casestudy4.model.Category;
-import com.codegym.casestudy4.model.Product;
-import com.codegym.casestudy4.model.Shop;
+import com.codegym.casestudy4.model.*;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.category.ICategoryService;
 import com.codegym.casestudy4.service.product.IProductService;
+import com.codegym.casestudy4.service.rating.IRatingService;
 import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +42,12 @@ public class ProductController {
 
     @Autowired
     private IAppUserService appUserService;
+
     @Autowired
     private IShopService shopService;
+
+    @Autowired
+    private IRatingService ratingService;
 
     @ModelAttribute("currentUser")
     public AppUser currentUser(){
@@ -67,10 +65,6 @@ public class ProductController {
 
         return iShopService.findByUserID(id);
     }
-
-
-//    @Value("${upload.path}")
-//    private String fileUpload;
 
     @GetMapping("/detail/{id}")
     public ModelAndView showProductDetail(@PathVariable("id") Long id){
@@ -120,8 +114,6 @@ public class ProductController {
         }
         product.setImage(fileName);
 
-//        product.setImage(fileName);
-//        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), fileName, product.getDescription(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop(), product.getCategory());
         product.setShop(currentShop());
         product.setStatus(true);
         productService.save(product);
@@ -166,12 +158,30 @@ public class ProductController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PageableDefault(size = 15) @PathVariable Long id, Pageable pageable){
-//        Product product = productService.findById(id).get();
-//        productService.delete(product.getProductId());
         productService.delete(id);
         Page<Product> products = productService.findAll(pageable);
         ModelAndView modelAndView = new ModelAndView("/shop/list");
         modelAndView.addObject("products", products);
         return modelAndView;
+    }
+
+    @GetMapping("rating/{id}")
+    public ModelAndView ratingProduct(@PathVariable("id") Long id){
+        ModelAndView modelAndView = new ModelAndView("customer/rating");
+        modelAndView.addObject("product",productService.findById(id).get());
+        Rating rating = ratingService.findByProduct_ProductIdAndAppUser(id,currentUser());
+        if(rating==null){
+            modelAndView.addObject("rating",new Rating());
+        } else {
+            modelAndView.addObject("rating",rating);
+        }
+        return modelAndView;
+    }
+
+    @PostMapping("/rating")
+    public ModelAndView submitRating(@ModelAttribute("rating") Rating rating){
+        rating.setAppUser(currentUser());
+        ratingService.save(rating);
+        return new ModelAndView("redirect:/customer/ordered");
     }
 }

@@ -2,7 +2,7 @@ package com.codegym.casestudy4.service.product;
 
 import com.codegym.casestudy4.model.*;
 import com.codegym.casestudy4.repo.IProductRepository;
-import com.codegym.casestudy4.repo.ItemsRepository;
+import com.codegym.casestudy4.repo.ICardItemsRepository;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.cart.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import java.util.Optional;
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private ICartService cartService;
+
     @Autowired
     private IAppUserService userService;
 
@@ -30,10 +31,6 @@ public class ProductServiceImpl implements IProductService {
     @ModelAttribute("currentCart")
     public Cart currentCart() {
         Cart cart = cartService.findByAppUser_AppUserId(currentUser().getAppUserId());
-        if (cart == null) {
-            cart = new Cart(currentUser());
-            cartService.save(cart);
-        }
         return cart;
     }
 
@@ -41,7 +38,7 @@ public class ProductServiceImpl implements IProductService {
     private IProductRepository productRepository;
 
     @Autowired
-    private ItemsRepository itemsRepository;
+    private ICardItemsRepository ICardItemsRepository;
 
     @Override
     public Iterable<Product> findAll() {
@@ -105,7 +102,7 @@ public class ProductServiceImpl implements IProductService {
 //lay sptrong 1cart truyen vao`
     @Override
     public List<Product> findAllProductByCart(Cart cart) {
-        Iterable<Items> itemsList = itemsRepository.getAllByCart(currentCart());
+        Iterable<Items> itemsList = ICardItemsRepository.getAllByCart(currentCart());
 
         List<Product> productList=new ArrayList<>();
         for (Items item:itemsList
@@ -121,18 +118,18 @@ public class ProductServiceImpl implements IProductService {
         List<Product> allProductByCart = this.findAllProductByCart(currentCart());
         boolean isContains = allProductByCart.contains(product);
         if (isContains){
-            Items currentItems = itemsRepository.getByCartIsAndProductIs(currentCart(), product);
+            Items currentItems = ICardItemsRepository.getByCartIsAndProductIs(currentCart(), product);
             int currentQuantity = currentItems.getQuantity();
             currentQuantity++;
             currentItems.setQuantity(currentQuantity);
-            itemsRepository.save(currentItems);
+            ICardItemsRepository.save(currentItems);
         }
         else {
             Items newItem=new Items();
             newItem.setQuantity(1);
             newItem.setProduct(product);
             newItem.setCart(currentCart());
-            itemsRepository.save(newItem);
+            ICardItemsRepository.save(newItem);
         }
 
     }
@@ -140,15 +137,15 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public void minusProductQuantity(Long id) {
         Product product = productRepository.findById(id).get();
-        Items currentItem = itemsRepository.getByCartIsAndProductIs(currentCart(), product);
+        Items currentItem = ICardItemsRepository.getByCartIsAndProductIs(currentCart(), product);
         int quantity = currentItem.getQuantity();
         Long itemId = currentItem.getItemId();
         if (quantity==1) {
-            itemsRepository.deleteById(itemId);
+            ICardItemsRepository.deleteById(itemId);
         }else {
             quantity--;
             currentItem.setQuantity(quantity);
-            itemsRepository.save(currentItem);
+            ICardItemsRepository.save(currentItem);
         }
     }
 

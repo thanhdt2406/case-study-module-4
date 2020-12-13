@@ -23,33 +23,12 @@
             success: function (data) {
                 let length = data.length;
                 document.getElementById("number").innerHTML = length;
-
-
-
             }
         })
     }
-    // let myVar = setInterval(reloadProduct,2000);
-    // function reloadProduct() {
-    //     let idProduct =  $('#addtocart').attr('href');
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/customer/addProductToCart/" + idProduct,
-    //         success: function (data) {
-    //             let length = data.length;
-    //             document.getElementById("number").innerHTML = length;
-    //
-    //
-    //
-    //         }
-    //     })
-    // }
-
 </script>
 <body onload="img()">
 <th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
-<h1 th:text="${currentUser.getName()}"></h1>
-
 <section>
     <div class="container">
         <div class="row">

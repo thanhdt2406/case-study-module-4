@@ -195,7 +195,7 @@
                         <div class="well text-center">
                             <form action="#">
                                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="100000000"
-                                       data-slider-step="1000000" data-slider-value="[5000000,20000000]" id="sl2"><br/>
+                                       data-slider-step="1000000" data-slider-value="[0,2000000]" id="sl2"><br/>
                                 <b class="pull-left">0</b> <b class="pull-right">100.000.000</b>
                                 <button type="submit" class="btn btn-warning" onclick="searchByPrice()">Search</button>
                             </form>
@@ -218,7 +218,7 @@
                                     <img th:src="'../'+ ${pro.getImage()}" alt="" width="300px" height="300px"/>
                                     <h2 th:text="${pro.getPrice()}"></h2>
                                     <p th:text="${pro.getName()}"></p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
+                                    <a href="/login" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                         to cart</a>
                                 </div>
                                 <div class="product-overlay">
@@ -291,16 +291,13 @@
 
     function loadItems(e) {
         let category = e.getAttribute("name");
-// goi ajax
         $.ajax({
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             type: "GET",
-//tên API
             url: `/categoryname?name=${category}`,
-//xử lý khi thành công
             success: function (data) {
               let content="";
               for (let i=0;i<data.length;i++){
@@ -308,28 +305,9 @@
               }
                 document.getElementById('product').innerHTML=content;
             }
-
         })
-//chặn sự kiện mặc định của thẻ
         event.preventDefault();
     }
-
-//     function successHandler() {
-//         $.ajax({
-//             type: "GET",
-// //tên API
-//             url: "/categoryname",
-// //xử lý khi thành công
-//             success: function (data) {
-// // hien thi danh sach o day
-//                 let content = "";
-//                 for (let i = 0; i < data.length; i++) {
-//                     content += getProduct(data[i]);
-//                 }
-//                 document.getElementById('classList').innerHTML = content;
-//             }
-//         });
-//     }
 
     function getProduct(pro) {
         return `  <div class="col-sm-4">
@@ -339,19 +317,18 @@
                                     <img src="../${pro.image}" alt="" width="300px" height="300px"/>
                                     <h2 >${pro.price}</h2>
                                     <p >${pro.name}</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
+                                    <a href="/login" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
                                         to cart</a>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
                                         <h2>${pro.price}</h2>
                                         <p >${pro.name}</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i
+                                        <a href="/login" class="btn btn-default add-to-cart"><i
                                                 class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>`
     }

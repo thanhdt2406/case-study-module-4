@@ -4,20 +4,8 @@
     <th:block th:replace="/layout::head"></th:block>
     <title>Shop|HomePage</title>
 </head>
-<style>
-    .shop-page_info{
-        height: 200px;
-        background-color: #3c763d;
-        padding: revert;
-    }
-</style>
 <body>
-
 <header th:replace="/layout::shop-user-header"><!--header--></header><!--/header-->
-
-<div class="shop-page_info"></div>
-<hr>
-<h1 th:text="${currentShop.getName()}"></h1>
 <section>
     <div class="container">
         <div class="row">
@@ -25,7 +13,7 @@
 
             <div class="col-sm-9 padding-right">
                 <h2 class="title text-center">Shop profile</h2>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="signup-form"><!--sign up form-->
                         <form method="post" th:object="${shop}">
                             <input type="hidden" name="shopId" th:value="${shop.getShopId()}">
