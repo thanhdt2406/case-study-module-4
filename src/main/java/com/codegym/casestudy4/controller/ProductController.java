@@ -68,7 +68,12 @@ public class ProductController {
 
     @GetMapping("/detail/{id}")
     public ModelAndView showProductDetail(@PathVariable("id") Long id){
-        return new ModelAndView("customer/product-details","product",productService.findById(id).get());
+        ModelAndView modelAndView = new ModelAndView("customer/product-details");
+        modelAndView.addObject("product",productService.findById(id).get());
+        modelAndView.addObject("stars",ratingService.findAvgRatingByProductId(id));
+        modelAndView.addObject("rating",ratingService.findAllByProduct_ProductId(id));
+        productService.addViewByProductId(id);
+        return modelAndView;
     }
 
     @GetMapping("/product-detail/{id}")
@@ -106,7 +111,7 @@ public class ProductController {
 //        Product productDB = new Product(product.getName(), product.getPrice(), product.getQuantity(), product.getCreateDate(), product.getViews(), product.getRating(), product.isStatus(), product.getShop().getName(), product.getCategory().getName());
         MultipartFile multipartFile = product.getProductImage();
         String fileName = multipartFile.getOriginalFilename();
-        String fileUpload = env.getProperty("upload.path").toString();
+        String fileUpload = env.getProperty("UPLOAD.PATH").toString();
         try {
             FileCopyUtils.copy(multipartFile.getBytes(), new File(fileUpload + fileName));
         } catch (IOException e) {

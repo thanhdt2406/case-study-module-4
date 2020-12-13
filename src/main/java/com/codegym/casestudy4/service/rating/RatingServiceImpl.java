@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RatingServiceImpl implements IRatingService{
+public class RatingServiceImpl implements IRatingService {
     @Autowired
     private IRatingRepository ratingRepository;
 
@@ -35,6 +35,19 @@ public class RatingServiceImpl implements IRatingService{
 
     @Override
     public Rating findByProduct_ProductIdAndAppUser(Long id, AppUser appUser) {
-        return ratingRepository.findByProduct_ProductIdAndAppUser(id,appUser);
+        return ratingRepository.findByProduct_ProductIdAndAppUser(id, appUser);
+    }
+
+    @Override
+    public Double findAvgRatingByProductId(Long id) {
+        if(ratingRepository.findAvgRatingByProductId(id)==null){
+            return 0D;
+        }
+        else return ratingRepository.findAvgRatingByProductId(id);
+    }
+
+    @Override
+    public Iterable<Rating> findAllByProduct_ProductId(Long id) {
+        return ratingRepository.findAllByProduct_ProductId(id);
     }
 }

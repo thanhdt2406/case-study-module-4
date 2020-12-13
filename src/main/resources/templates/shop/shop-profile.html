@@ -27,7 +27,7 @@
                             </div>
                             <div>
                                 <label>Description</label>
-                                <textarea type="text" name="description" th:value="${shop.getDescription()}"></textarea>
+                                <textarea type="text" name="description" th:text="${shop.getDescription()}"></textarea>
                             </div>
                             <input type="hidden" name="appUser" th:value="${shop.getAppUser().getAppUserId()}">
                             <button type="submit" class="btn btn-default">Edit</button>

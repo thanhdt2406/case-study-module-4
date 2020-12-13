@@ -51,9 +51,9 @@ public class CustomerController {
     }
 
     @ModelAttribute("currentCart")
-    public Cart currentCart(){
+    public Cart currentCart() {
         Cart cart = cartService.findByAppUser_AppUserId(currentUser().getAppUserId());
-        if(cart == null){
+        if (cart == null) {
             cart = new Cart(currentUser());
             cartService.save(cart);
         }
@@ -61,18 +61,18 @@ public class CustomerController {
     }
 
     @GetMapping("")
-    public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("searchName") Optional<String> name){
+    public ModelAndView getAllProduct(@PageableDefault(size = 15) Pageable pageable, @RequestParam("searchName") Optional<String> name) {
         Page<Product> productsList;
-        if (name.isPresent()){
+        if (name.isPresent()) {
             productsList = productService.findAllByNameContaining(name.get(), pageable);
-        }else {
+        } else {
             productsList = productService.findAll(pageable);
         }
-        return new ModelAndView("customer/customer-index","products",productsList);
+        return new ModelAndView("customer/customer-index", "products", productsList);
     }
 
     @GetMapping("/cart")
-    public ModelAndView showCart(){
+    public ModelAndView showCart() {
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         ModelAndView modelAndView = new ModelAndView("customer/cart");
         modelAndView.addObject("allItems", allItemsByCart);
@@ -80,7 +80,7 @@ public class CustomerController {
     }
 
     @GetMapping("/addItem")
-    public ModelAndView addItem(){
+    public ModelAndView addItem() {
         ModelAndView modelAndView = new ModelAndView("customer/cart");
         return modelAndView;
     }
@@ -89,20 +89,21 @@ public class CustomerController {
     public ResponseEntity<List<Items>> addProductToCart(@PathVariable Long id) {
         productService.addProductToCart(id);
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
-        return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+        return new ResponseEntity<>(allItemsByCart, HttpStatus.OK);
     }
+
     @GetMapping("/minusProduct/{id}")
     public ResponseEntity<List<Items>> minusProductToItem(@PathVariable Long id) {
         productService.minusProductQuantity(id);
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
-        return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+        return new ResponseEntity<>(allItemsByCart, HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/delete/{id}")
     public ResponseEntity<List<Items>> deleteItem(@PathVariable Long id) {
-            itemsService.deleteByProductId(id);
+        itemsService.deleteByProductId(id);
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
-        return new ResponseEntity<>(allItemsByCart ,HttpStatus.OK);
+        return new ResponseEntity<>(allItemsByCart, HttpStatus.OK);
     }
 
 //    private void createNewOrder(){
@@ -111,28 +112,36 @@ public class CustomerController {
 //    }
 
     @PostMapping("/order")
-    public ModelAndView order(@RequestParam("cartID") Long id){
+    public ModelAndView order(@RequestParam("cartID") Long id) {
+        List<Items> items = itemsService.getAllItemsByCartId(id);
         Ordered ordered = new Ordered(currentUser());
         orderedService.save(ordered);
-        List<Items> items = itemsService.getAllItemsByCartId(id);
-        for(Items item : items){
-            OrderDetail orderDetail = new OrderDetail(item.getQuantity(),ordered,item.getProduct());
+        boolean isEmpty = true;
+        for (Items item : items) {
+            if (item.getQuantity() > productService.findById(item.getProduct().getProductId()).get().getQuantity()) {
+                isEmpty = false;
+                continue;
+            }
+            OrderDetail orderDetail = new OrderDetail(item.getQuantity(), ordered, item.getProduct());
             orderDetailService.save(orderDetail);
+            productService.minusProductByProductId(item.getQuantity(), item.getProduct().getProductId());
             itemsService.delete(item.getItemId());
         }
-        cartService.delete(id);
+        if (isEmpty) {
+            cartService.delete(id);
+        }
         return new ModelAndView("redirect:/customer/ordered");
     }
 
     @GetMapping("/ordered")
-    public ModelAndView showOrder(){
+    public ModelAndView showOrder() {
         List<Ordered> orderedList = (List<Ordered>) orderedService.findAllByAppUser(currentUser());
-        return new ModelAndView("customer/ordered","orderedList",orderedList);
+        return new ModelAndView("customer/ordered", "orderedList", orderedList);
     }
 
     @GetMapping("/order/detail/{id}")
-    public ModelAndView showDetailOrder(@PathVariable("id") Long id){
+    public ModelAndView showDetailOrder(@PathVariable("id") Long id) {
         Iterable<OrderDetail> orderDetailList = orderDetailService.findAllByOrdered(id);
-        return new ModelAndView("/customer/order-detail","orderDetailList",orderDetailList);
+        return new ModelAndView("/customer/order-detail", "orderDetailList", orderDetailList);
     }
 }

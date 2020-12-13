@@ -39,7 +39,12 @@
                             <th:block th:if="${!user.isStatus()}" th:text="Blocked"></th:block>
                         </td>
                         <td>
-                            <th:block th:if="${user.isStatus()}"><a th:href="@{/admins/block/__${user.getAppUserId()}__}"><button type="button" class="btn btn-warning">Block</button></a></th:block>
+                            <th:block th:if="${user.isStatus()}">
+                                <a th:href="@{/admins/block/__${user.getAppUserId()}__}"><button type="button" class="btn btn-warning">Block</button></a>
+                                <th:block th:if="${user.getAppRole().getName()!='ROLE_SHOP'}">
+                                    <a th:href="@{/admins/upgrade/__${user.getAppUserId()}__}"><button type="button" class="btn btn-warning">Change to Shop</button></a>
+                                </th:block>
+                            </th:block>
                             <th:block th:if="${!user.isStatus()}"><a th:href="@{/admins/unblock/__${user.getAppUserId()}__}"><button type="button" class="btn btn-warning">Unblock</button></a></th:block>
                         </td>
                     </tr>

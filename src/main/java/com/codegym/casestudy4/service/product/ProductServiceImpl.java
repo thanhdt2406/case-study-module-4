@@ -150,6 +150,16 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public void minusProductByProductId(int amount, Long id) {
+        productRepository.minusProductByProductId(amount,id);
+    }
+
+    @Override
+    public void addViewByProductId(Long id) {
+        productRepository.addViewByProductId(id);
+    }
+
+    @Override
     public Iterable<Product> findAllByPriceAsc() {
         return productRepository.findAllByOrderByPriceAsc();
     }

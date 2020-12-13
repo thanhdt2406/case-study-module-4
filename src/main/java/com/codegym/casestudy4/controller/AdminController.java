@@ -35,6 +35,12 @@ public class AdminController {
         return new ModelAndView("redirect:/admins");
     }
 
+    @GetMapping("/upgrade/{id}")
+    public ModelAndView upgradeUser(@PathVariable("id") Long id,@PageableDefault(size = 10) Pageable pageable){
+        appUserService.changeAppUserRole("ROLE_SHOP",id);
+        return new ModelAndView("redirect:/admins");
+    }
+
     @GetMapping("/users-violation")
     public ModelAndView violationUser(@PageableDefault(size = 10) Pageable pageable){
         Page<AppUser> users = appUserService.findAppUserAvailable(pageable,"ROLE_ADMIN",false);

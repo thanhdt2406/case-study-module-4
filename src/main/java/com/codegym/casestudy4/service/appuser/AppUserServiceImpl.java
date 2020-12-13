@@ -45,6 +45,11 @@ public class AppUserServiceImpl implements IAppUserService, UserDetailsService {
         return iAppUserRepository.findAppUserAvailable(pageable,roleName,isAvailable);
     }
 
+    @Override
+    public void changeAppUserRole(String roleName, Long id) {
+        iAppUserRepository.changeAppUserRole(roleName,id);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
