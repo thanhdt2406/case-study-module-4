@@ -1,6 +1,6 @@
 package com.codegym.casestudy4.service.shop;
 
-import com.codegym.casestudy4.model.AppUser;
+import com.codegym.casestudy4.model.Financial;
 import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.repo.IShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +47,11 @@ public class ShopServiceImpl implements IShopService{
     @Override
     public Page<Shop> findShopAvailable(Pageable pageable, boolean isAvailable) {
         return iShopRepository.findShopAvailable(pageable,isAvailable);
+    }
+
+    @Override
+    public Iterable<Financial> getFinancialPerMonthByShopId(Long id) {
+        return iShopRepository.getFinancialPerMonthByShopId(id);
     }
 
 }

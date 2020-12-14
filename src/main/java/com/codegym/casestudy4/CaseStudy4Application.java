@@ -6,11 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.core.parameters.P;
 
+import java.util.Scanner;
+
 @SpringBootApplication
 public class CaseStudy4Application {
 
     public static void main(String[] args) {
         SpringApplication.run(CaseStudy4Application.class, args);
-
     }
 }

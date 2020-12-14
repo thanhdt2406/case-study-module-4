@@ -1,5 +1,6 @@
 package com.codegym.casestudy4.service.shop;
 
+import com.codegym.casestudy4.model.Financial;
 import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.model.Shop;
 import com.codegym.casestudy4.service.IGeneralService;
@@ -13,5 +14,5 @@ public interface IShopService extends IGeneralService<Shop> {
 
     Page<Shop> findShopAvailable(Pageable pageable,boolean isAvailable);
 
-
+    Iterable<Financial> getFinancialPerMonthByShopId(Long id);
 }

@@ -1,28 +1,19 @@
 package com.codegym.casestudy4.controller;
 
 import com.codegym.casestudy4.model.AppUser;
-import com.codegym.casestudy4.model.Product;
 import com.codegym.casestudy4.model.Shop;
 
-import com.codegym.casestudy4.repo.IProductRepository;
-import com.codegym.casestudy4.repo.IShopRepository;
 import com.codegym.casestudy4.service.appuser.IAppUserService;
 import com.codegym.casestudy4.service.product.IProductService;
 import com.codegym.casestudy4.service.shop.IShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/shops")
@@ -105,5 +96,12 @@ public class ShopController {
         shop.setStatus(true);
         iShopService.save(shop);
         return new ModelAndView("redirect:/shops");
+    }
+
+    @GetMapping("/revenue-per-month")
+    public ModelAndView getRevenuePerMonth(){
+        ModelAndView modelAndView = new ModelAndView("shop/revenue");
+        modelAndView.addObject("revenues",iShopService.getFinancialPerMonthByShopId(currentShop().getShopId()));
+        return modelAndView;
     }
 }

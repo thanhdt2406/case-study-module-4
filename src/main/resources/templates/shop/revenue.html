@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/layout::head"></th:block>
+    <title>Shop|HomePage</title>
+</head>
+<body>
+<header th:replace="/layout::shop-user-header"><!--header--></header><!--/header-->
+
+<!--<section id="cart_items">-->
+<!--    <div class="container">-->
+<!--        <div class="breadcrumbs">-->
+<!--            <ol class="breadcrumb">-->
+<!--                <li><a href="#">Home</a></li>-->
+<!--                <li class="active">Shopping Cart</li>-->
+<!--            </ol>-->
+<!--        </div>-->
+<!--        <div class="table-responsive cart_info">-->
+<!--            <table class="table table-condensed">-->
+<!--                <thead>-->
+<!--                <tr class="cart_menu">-->
+<!--                    <td class="image">Month</td>-->
+<!--                    <td class="description">Money</td>-->
+<!--                    <td></td>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr th:each="revenue: ${revenues}">-->
+<!--                    <td class="cart_product">-->
+<!--                        <p th:text="${revenue.getMonth()}"></p>-->
+<!--                    </td>-->
+<!--                    <td class="cart_description">-->
+<!--                        <p th:text="${revenue.getMoney()}"></p>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div th:replace="/layout::shop-left-sidebar"></div>
+
+            <div class="col-sm-9 padding-right">
+                <h2 class="title text-center">Revenue Per Month</h2>
+                <section id="cart_items">
+                    <div class="container">
+                        <div class="table-responsive cart_info">
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr class="cart_menu">
+                                    <td class="image">Month</td>
+                                    <td class="description">Money</td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="revenue: ${revenues}">
+                                    <td class="cart_product">
+                                        <p th:text="${revenue.getMonth()}"></p>
+                                    </td>
+                                    <td class="cart_description">
+                                        <p th:text="${revenue.getMoney()}"></p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="/layout::footer"><!--Footer-->
+</footer><!--/Footer-->
+
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.scrollUp.min.js"></script>
+<script src="js/price-range.js"></script>
+<script src="js/jquery.prettyPhoto.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
