@@ -28,9 +28,6 @@ public class CustomerController {
     private IProductService productService;
 
     @Autowired
-    private ICategoryService categoryService;
-
-    @Autowired
     private ItemsService itemsService;
 
     @Autowired
@@ -71,17 +68,16 @@ public class CustomerController {
         return new ModelAndView("customer/customer-index", "products", productsList);
     }
 
+    @GetMapping("cus-info")
+    public ModelAndView showCustomerDetail(){
+        return new ModelAndView("customer/customer-info");
+    }
+
     @GetMapping("/cart")
     public ModelAndView showCart() {
         List<Items> allItemsByCart = itemsService.getAllItemsByCart(currentCart());
         ModelAndView modelAndView = new ModelAndView("customer/cart");
         modelAndView.addObject("allItems", allItemsByCart);
-        return modelAndView;
-    }
-
-    @GetMapping("/addItem")
-    public ModelAndView addItem() {
-        ModelAndView modelAndView = new ModelAndView("customer/cart");
         return modelAndView;
     }
 

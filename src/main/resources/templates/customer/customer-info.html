@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <th:block th:replace="/customer/cus_layout::head"></th:block>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<th:block th:replace="/customer/cus_layout::user-header(name=${currentUser.getName()})"></th:block>
+</h1>
+<section>
+    <div class="container"  >
+        <div class="row">
+            <!--            left-sidebar-->
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2></h2>
+                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/customer/ordered"  name="bags">Odered</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#"  name="balls">Edit infomation</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="/shops"  name="caps">Shop</a></h4>
+                            </div>
+                        </div>
+                    </div><!--/category-products-->
+                </div>
+            </div>
 
+            <div class="col-sm-9 padding-right">
+                <h2 class="title text-center">Your infomation</h2>
+                <hr>
+                <div class="features_items" id="product">
+                    <ul>
+                        <label for="">User ID:</label>
+                        <li th:text="${currentUser.getAppUserId()}"></li>
+                        <br>
+                        <label for="">Name:</label>
+                        <li> <p th:text="${currentUser.getName()}"></p></li>
+                        <br>
+                        <label for="">Email:</label>
+                        <li> <p th:text="${currentUser.getEmail()}"></p></li>
+                        <br>
+                        <label for="">Phone number:</label>
+                        <li> <p th:text="${currentUser.getPhoneNumber()}"></p></li>
+                        <br>
+                        <label for="">Address:</label>
+                        <li> <p th:text="${currentUser.getAddress()}"></p></li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="customer/cus_layout::footer"><!--Footer--></footer><!--/Footer-->
 </body>
 </html>
