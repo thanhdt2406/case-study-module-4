@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -162,12 +163,14 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PageableDefault(size = 15) @PathVariable Long id, Pageable pageable){
+    public void delete(@PageableDefault(size = 15) @PathVariable Long id, Pageable pageable, HttpServletResponse response){
         productService.delete(id);
         Page<Product> products = productService.findAll(pageable);
-        ModelAndView modelAndView = new ModelAndView("/shop/list");
-        modelAndView.addObject("products", products);
-        return modelAndView;
+        try {
+            response.sendRedirect("/shops");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("rating/{id}")
