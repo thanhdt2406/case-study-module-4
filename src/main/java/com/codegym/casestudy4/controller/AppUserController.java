@@ -49,6 +49,11 @@ public class AppUserController {
         return new ModelAndView("index","products",productsList);
     }
 
+    @GetMapping("/banned")
+    public ModelAndView bannedNoti(){
+        return new ModelAndView("loginNotification");
+    }
+
     @GetMapping("/categoryname")
     public ResponseEntity<Iterable<Product>> getAllProByCategory(@RequestParam(value = "name",required = false) String categoryName) {
         Optional<Category> category = categoryService.findCategoryByName(categoryName);

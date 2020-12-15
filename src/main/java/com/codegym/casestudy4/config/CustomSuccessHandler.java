@@ -1,5 +1,8 @@
 package com.codegym.casestudy4.config;
 
+import com.codegym.casestudy4.model.AppUser;
+import com.codegym.casestudy4.service.appuser.IAppUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -18,6 +21,8 @@ import java.util.List;
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    @Autowired
+    private IAppUserService appUserService;
 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -30,20 +35,26 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     protected String determineTargetUrl(Authentication authentication){
         String url;
+        AppUser currentUser = appUserService.getUserLogin();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         List<String> roles = new ArrayList<>();
         for(GrantedAuthority authority:authorities){
             roles.add(authority.getAuthority());
         }
-        if(isAdmin(roles)){
-            url="/admins";
-        } else if(isUser(roles)){
-            url="/customer";
-        } else if(isShop(roles)){
-            url="/shops";
-        } else {
-            url = "/deny";
+        if (currentUser.isStatus()){
+            if(isAdmin(roles)){
+                url="/admins";
+            } else if(isUser(roles)){
+                url="/customer";
+            } else if(isShop(roles)){
+                url="/shops";
+            } else {
+                url = "/deny";
+            }
+        }else {
+            url = "/banned";
         }
+
         return url;
     }
 

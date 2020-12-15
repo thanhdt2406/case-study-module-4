@@ -41,7 +41,7 @@ public class SecController {
 
 
     @GetMapping("/login")
-    public ModelAndView login() {
+    public ModelAndView getFormLogin() {
         ModelAndView modelAndView = null;
         if (currentUser() == null) {
             modelAndView = new ModelAndView("login", "appuser", new AppUser());
